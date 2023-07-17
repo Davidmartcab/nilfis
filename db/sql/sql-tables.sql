@@ -15,7 +15,7 @@ CREATE TABLE films (
     year VARCHAR(4) NOT NULL,
     url varchar(255),
     rate INTEGER,
-    duration INTERVAL,
+    duration VARCHAR(20),
     subscription_type_required VARCHAR(20) DEFAULT NULL
 );
 
@@ -60,7 +60,7 @@ CREATE TABLE subscriptions_types (
     id UUID default uuid_generate_v4() PRIMARY KEY,
     name VARCHAR(20) UNIQUE NOT NULL,
     price DOUBLE PRECISION NOT NULL,
-    duration INTERVAL NOT NULL
+    duration VARCHAR(20) NOT NULL
 );
 
 CREATE TABLE subscriptions (

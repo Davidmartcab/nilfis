@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 
+import java.time.Duration;
 import java.util.Set;
 import java.util.UUID;
 

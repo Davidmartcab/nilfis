@@ -1,18 +1,22 @@
 package com.nilfis.nilfis;
 
+import com.nilfis.nilfis.domain.entities.FilmsEntity;
 import com.nilfis.nilfis.domain.repositories.*;
+import com.nilfis.nilfis.util.DurationInterval;
+import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.util.UUID;
-
 @SpringBootApplication
 @AllArgsConstructor
 @Slf4j
 public class NilfisApplication implements CommandLineRunner {
+
+    private final EntityManager entityManager;
 
     private final FilmsRepository filmsRepository;
 
@@ -33,13 +37,21 @@ public class NilfisApplication implements CommandLineRunner {
     }
 
     @Override
+    @Transactional
     public void run(String... args) throws Exception {
-        var var = this.subscriptionsRepository.findActiveSubscriptionsByCustomerId(UUID.fromString("48cde5cd-5d6c-4d97-8fad-be6beb297147"));
-        System.out.println("----------------------------------------");
-        var.forEach(v -> {
-            System.out.println(v.getType());
-        });
-//        System.out.println(var);
-        System.out.println("----------------------------------------");
+        DurationInterval dur = new DurationInterval();
+        dur.setHours(2);
+        dur.setMinutes(30);
+        String duration = dur.getInterval();
+        FilmsEntity film2 = FilmsEntity.builder()
+                .title("Film Title 2")
+                .director("Director 2")
+                .year("2021")
+                .url("https://example.com/film2")
+                .rate(4)
+                .duration(duration)
+                .subscription_type_required("Basic")
+                .build();
+        this.filmsRepository.save(film2);
     }
 }

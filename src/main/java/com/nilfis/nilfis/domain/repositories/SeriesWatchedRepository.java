@@ -1,5 +1,6 @@
 package com.nilfis.nilfis.domain.repositories;
 
+import com.nilfis.nilfis.domain.entities.SeriesEntity;
 import com.nilfis.nilfis.domain.entities.SeriesWatchedEntity;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -11,6 +12,17 @@ public interface SeriesWatchedRepository extends CrudRepository<SeriesWatchedEnt
 
     @Query("SELECT COUNT(sw) FROM series_watched sw WHERE sw.customer.id = :customerId")
     Long countSeriesWatchedByCustomerId(UUID customerId);
+
+    @Query("SELECT f FROM series f " +
+            "JOIN series_watched fw ON f.id = fw.serie.id " +
+            "WHERE fw.customer.id = :customerId")
+    Set<SeriesEntity> findSeriesWatchedByCustomer(UUID customerId);
+
+    @Query("SELECT f FROM series f " +
+            "JOIN series_watched fw ON f.id = fw.serie.id " +
+            "WHERE fw.customer.id = :customerId " +
+            "AND fw.serie.id = :serieId")
+    Set<SeriesEntity> findSeriesWatchedByCustomerAndSerie(UUID customerId, UUID serieId);
 
     /*
       Por cada elemento del set hay que hacer lo siguiente:

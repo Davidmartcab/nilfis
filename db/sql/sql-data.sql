@@ -28,7 +28,62 @@ INSERT INTO customers (name, email, phone, country) VALUES
     ('Liu Wei', 'liuwei@example.com', '34987654324', 'Spain'),
     ('Sophie Dupont', 'sophiedupont@example.com', '34987654325', 'Spain');
 
+-- Insertar un registro en films_watched para el cliente con email 'johnsmith@example.com' y la película 'The Shawshank Redemption'
+INSERT INTO films_watched (customer_id, film_id, date)
+SELECT c.id AS customer_id,
+       f.id AS film_id,
+       CURRENT_DATE AS date
+FROM customers c
+JOIN films f ON c.email = 'johnsmith@example.com' AND f.title = 'The Shawshank Redemption'
+LIMIT 1;
+
+-- Insertar un registro en films_watched para el cliente con email 'mariagarcia@example.com' y la película 'Pulp Fiction'
+INSERT INTO films_watched (customer_id, film_id, date)
+SELECT c.id AS customer_id,
+       f.id AS film_id,
+       CURRENT_DATE AS date
+FROM customers c
+JOIN films f ON c.email = 'mariagarcia@example.com' AND f.title = 'Pulp Fiction'
+LIMIT 1;
+
+-- Insertar un registro en series_watched para el cliente con email 'johnsmith@example.com' y la serie 'Breaking Bad'
+INSERT INTO series_watched (customer_id, serie_id, date)
+SELECT c.id AS customer_id,
+       s.id AS serie_id,
+       CURRENT_DATE AS date
+FROM customers c
+JOIN series s ON c.email = 'johnsmith@example.com' AND s.title = 'Breaking Bad'
+LIMIT 1;
+
+-- Insertar un registro en series_watched para el cliente con email 'mariagarcia@example.com' y la serie 'Game of Thrones'
+INSERT INTO series_watched (customer_id, serie_id, date)
+SELECT c.id AS customer_id,
+       s.id AS serie_id,
+       CURRENT_DATE AS date
+FROM customers c
+JOIN series s ON c.email = 'mariagarcia@example.com' AND s.title = 'Game of Thrones'
+LIMIT 1;
+
 INSERT INTO subscriptions_types (name, price, duration) VALUES
-    ('basic', 4.99, INTERVAL '30 days'),
+    ('basic', 4.99, INTERVAL '15 days'),
     ('premium', 9.99, INTERVAL '30 days'),
-    ('family', 14.99, INTERVAL '30 days');
+    ('family', 14.99, INTERVAL '60 days');
+
+INSERT INTO subscriptions (customer_id, date_start, date_end, type_id)
+SELECT c.id AS customer_id,
+       CURRENT_DATE AS date_start,
+       CURRENT_DATE + st.duration AS date_end,
+       st.id AS type_id
+FROM customers c
+JOIN subscriptions_types st ON c.email = 'johnsmith@example.com' AND st.name = 'premium'
+LIMIT 1;
+
+INSERT INTO subscriptions (customer_id, date_start, date_end, type_id)
+SELECT c.id AS customer_id,
+       CURRENT_DATE AS date_start,
+       CURRENT_DATE + st.duration AS date_end,
+       st.id AS type_id
+FROM customers c
+JOIN subscriptions_types st ON c.email = 'mariagarcia@example.com' AND st.name = 'family'
+LIMIT 1;
+
