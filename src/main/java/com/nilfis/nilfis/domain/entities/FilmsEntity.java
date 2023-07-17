@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 
+import java.io.Serializable;
 import java.time.Duration;
 import java.util.Set;
 import java.util.UUID;
@@ -13,7 +14,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Data
 @Builder
-public class FilmsEntity {
+public class FilmsEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
@@ -41,7 +42,7 @@ public class FilmsEntity {
     @EqualsAndHashCode.Exclude
     @OneToMany(
             cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER,
+            fetch = FetchType.LAZY,
             orphanRemoval = true,
             mappedBy = "film"
     )

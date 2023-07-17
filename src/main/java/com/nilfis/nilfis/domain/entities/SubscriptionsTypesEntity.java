@@ -3,6 +3,7 @@ package com.nilfis.nilfis.domain.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Set;
 import java.util.UUID;
@@ -12,7 +13,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Data
 @Builder
-public class SubscriptionsTypesEntity {
+public class SubscriptionsTypesEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
@@ -29,7 +30,7 @@ public class SubscriptionsTypesEntity {
     @EqualsAndHashCode.Exclude
     @OneToMany(
             cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER,
+            fetch = FetchType.LAZY,
             orphanRemoval = true,
             mappedBy = "type"
     )

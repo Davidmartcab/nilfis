@@ -6,6 +6,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -44,8 +50,6 @@ public class DurationInterval {
             this.hours = time[0];
             this.minutes = time[1];
         }
-
-        System.out.println(this.getInterval());
     }
 
     private int[] defragment(String interval) {
@@ -57,8 +61,6 @@ public class DurationInterval {
 
         return time;
     }
-
-
 
 
 }

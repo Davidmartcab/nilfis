@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -14,7 +15,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Data
 @Builder
-public class SubscriptionsEntity {
+public class SubscriptionsEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;

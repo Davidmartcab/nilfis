@@ -42,7 +42,7 @@ public class CustomerController {
         this.customersService.delete(id);
         return ResponseEntity.noContent().build();
     }
-    
+
     @GetMapping(path = "/verify/{id}")
     public ResponseEntity<CustomersResponse> verifyCustomer(@PathVariable UUID id) {
         this.customersService.verifyCustomer(id);
