@@ -21,12 +21,13 @@ INSERT INTO series (title, director, year, rate, chapters, subscription_type_req
     ('The Office', 'Greg Daniels, Ricky Gervais, Stephen Merchant', '2005', 8, 201, NULL),
     ('Sherlock', 'Mark Gatiss, Steven Moffat', '2010', 9, 13, NULL);
 
-INSERT INTO customers (name, email, phone, country) VALUES
-    ('John Smith', 'johnsmith@example.com', '34987654321', 'Spain'),
-    ('Maria Garcia', 'mariagarcia@example.com', '34987654322', 'Spain'),
-    ('Andrea Rossi', 'andrearossi@example.com', '34987654323', 'Spain'),
-    ('Liu Wei', 'liuwei@example.com', '34987654324', 'Spain'),
-    ('Sophie Dupont', 'sophiedupont@example.com', '34987654325', 'Spain');
+INSERT INTO customers (name, email, phone, country, verified) VALUES
+    ('John Smith', 'johnsmith@example.com', '34987654321', 'Spain', true),
+    ('Maria Garcia', 'mariagarcia@example.com', '34987654322', 'Spain', true),
+    ('Andrea Rossi', 'andrearossi@example.com', '34987654323', 'Spain', true),
+    ('Liu Wei', 'liuwei@example.com', '34987654324', 'Spain', true),
+    ('Sophie Dupont', 'sophiedupont@example.com', '34987654325', 'Spain', true);
+
 
 -- Insertar un registro en films_watched para el cliente con email 'johnsmith@example.com' y la película 'The Shawshank Redemption'
 INSERT INTO films_watched (customer_id, film_id, date)

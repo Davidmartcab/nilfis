@@ -30,6 +30,8 @@ public class CustomersEntity implements Serializable {
     @Column(length = 20)
     private String country;
 
+    private boolean verified;
+
 //    Estos mapeos sirven para declarar que a esta entidad pueden pertenecer muchas de otras
     @ToString.Exclude
     @EqualsAndHashCode.Exclude

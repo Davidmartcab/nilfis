@@ -35,7 +35,8 @@ CREATE TABLE customers (
     name VARCHAR(50) NOT NULL,
     email VARCHAR(50) NOT NULL UNIQUE,
     phone VARCHAR(12) NOT NULL,
-    country VARCHAR(20)
+    country VARCHAR(20),
+    verified BOOLEAN DEFAULT false
 );
 
 CREATE TABLE films_watched (

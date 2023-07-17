@@ -63,6 +63,15 @@ public class CustomersService implements ICustomersService {
     }
 
     @Override
+    public void verifyCustomer(UUID uuid) {
+        var customerFromDB = this.customersRepository.findById(uuid).orElseThrow();
+        if(!customerFromDB.isVerified()){
+            customerFromDB.setVerified(true);
+            this.customersRepository.save(customerFromDB);
+        }
+    }
+
+    @Override
     public void delete(UUID uuid) {
         var customerToDelete = this.customersRepository.findById(uuid).orElseThrow();
         this.customersRepository.delete(customerToDelete);
