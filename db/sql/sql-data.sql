@@ -64,27 +64,3 @@ SELECT c.id AS customer_id,
 FROM customers c
 JOIN series s ON c.email = 'mariagarcia@example.com' AND s.title = 'Game of Thrones'
 LIMIT 1;
-
-INSERT INTO subscriptions_types (name, price, duration) VALUES
-    ('basic', 4.99, INTERVAL '15 days'),
-    ('premium', 9.99, INTERVAL '30 days'),
-    ('family', 14.99, INTERVAL '60 days');
-
-INSERT INTO subscriptions (customer_id, date_start, date_end, type_id)
-SELECT c.id AS customer_id,
-       CURRENT_DATE AS date_start,
-       CURRENT_DATE + st.duration AS date_end,
-       st.id AS type_id
-FROM customers c
-JOIN subscriptions_types st ON c.email = 'johnsmith@example.com' AND st.name = 'premium'
-LIMIT 1;
-
-INSERT INTO subscriptions (customer_id, date_start, date_end, type_id)
-SELECT c.id AS customer_id,
-       CURRENT_DATE AS date_start,
-       CURRENT_DATE + st.duration AS date_end,
-       st.id AS type_id
-FROM customers c
-JOIN subscriptions_types st ON c.email = 'mariagarcia@example.com' AND st.name = 'family'
-LIMIT 1;
-

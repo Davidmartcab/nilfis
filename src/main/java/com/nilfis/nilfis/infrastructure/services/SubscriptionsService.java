@@ -41,7 +41,7 @@ public class SubscriptionsService implements ISubscriptionsService {
         try {
             typeFound = this.subscriptionsTypesRepository.findBySubscriptionName(request.getSubscriptionsType());
         } catch (Exception e) {
-            log.info("Error: customer not found");
+            log.info("Error: Subscription not found");
             return null;
         }
 
