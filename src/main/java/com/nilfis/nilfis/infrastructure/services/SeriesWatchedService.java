@@ -28,6 +28,7 @@ public class SeriesWatchedService implements ISeriesWatchedService {
     @Override
     public SeriesWatchedResponse create(SeriesWatchedRequest request) {
         var customer = this.customersRepository.findById(request.getCustomer_id()).orElseThrow();
+//        if(!customer.isVerified()) {return new SeriesWatchedResponse();}
         var serie = new SeriesEntity();
         try {
             serie = this.seriesRepository.getReferenceById(request.getSerie_id());

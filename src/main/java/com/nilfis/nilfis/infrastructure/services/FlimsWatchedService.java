@@ -31,6 +31,7 @@ public class FlimsWatchedService implements IFilmsWatchedService {
     @Override
     public FilmsWatchedResponse create(FilmsWatchedRequest request) {
         var customer = this.customersRepository.findById(request.getCustomer_id()).orElseThrow();
+//        if(!customer.isVerified()){return new FilmsWatchedResponse();}
         var film = new FilmsEntity();
         try {
             film = this.filmsRepository.getReferenceById(request.getFilm_id());
