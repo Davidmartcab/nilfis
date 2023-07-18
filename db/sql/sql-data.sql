@@ -28,8 +28,12 @@ INSERT INTO customers (name, email, phone, country, verified) VALUES
     ('Liu Wei', 'liuwei@example.com', '34987654324', 'Spain', true),
     ('Sophie Dupont', 'sophiedupont@example.com', '34987654325', 'Spain', true);
 
+INSERT INTO subscriptions_types (name, price, duration)
+VALUES
+  ('basic', 9.99, '1 month'),
+  ('premium', 19.99, '3 months'),
+  ('familiar', 29.99, '6 months');
 
--- Insertar un registro en films_watched para el cliente con email 'johnsmith@example.com' y la película 'The Shawshank Redemption'
 INSERT INTO films_watched (customer_id, film_id, date)
 SELECT c.id AS customer_id,
        f.id AS film_id,
@@ -38,7 +42,6 @@ FROM customers c
 JOIN films f ON c.email = 'johnsmith@example.com' AND f.title = 'The Shawshank Redemption'
 LIMIT 1;
 
--- Insertar un registro en films_watched para el cliente con email 'mariagarcia@example.com' y la película 'Pulp Fiction'
 INSERT INTO films_watched (customer_id, film_id, date)
 SELECT c.id AS customer_id,
        f.id AS film_id,
@@ -47,7 +50,6 @@ FROM customers c
 JOIN films f ON c.email = 'mariagarcia@example.com' AND f.title = 'Pulp Fiction'
 LIMIT 1;
 
--- Insertar un registro en series_watched para el cliente con email 'johnsmith@example.com' y la serie 'Breaking Bad'
 INSERT INTO series_watched (customer_id, serie_id, date)
 SELECT c.id AS customer_id,
        s.id AS serie_id,
@@ -56,7 +58,6 @@ FROM customers c
 JOIN series s ON c.email = 'johnsmith@example.com' AND s.title = 'Breaking Bad'
 LIMIT 1;
 
--- Insertar un registro en series_watched para el cliente con email 'mariagarcia@example.com' y la serie 'Game of Thrones'
 INSERT INTO series_watched (customer_id, serie_id, date)
 SELECT c.id AS customer_id,
        s.id AS serie_id,
