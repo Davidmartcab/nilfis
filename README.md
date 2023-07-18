@@ -173,8 +173,7 @@
     "rate": 4,
     "duration": "2h 30m",
     "subscription_type_required": "Premium"
-  },
-  ...
+  }
 ]
 ```
 
@@ -202,8 +201,7 @@
     "rate": 4,
     "duration": "2h 30m",
     "subscription_type_required": "Premium"
-  },
-  ...
+  }
 ]
 ```
 
@@ -225,8 +223,7 @@
     "rate": 4,
     "duration": "2h 30m",
     "subscription_type_required": "Premium"
-  },
-  ...
+  }
 ]
 ```
 
@@ -248,8 +245,7 @@
     "rate": 4,
     "duration": "2h 30m",
     "subscription_type_required": "Premium"
-  },
-  ...
+  }
 ]
 ```
 
@@ -271,8 +267,7 @@
     "rate": 4,
     "duration": "2h 30m",
     "subscription_type_required": "Premium"
-  },
-  ...
+  }
 ]
 ```
 
@@ -294,8 +289,7 @@
     "rate": 4,
     "duration": "2h 30m",
     "subscription_type_required": "Premium"
-  },
-  ...
+  }
 ]
 ```
 
@@ -317,8 +311,7 @@
     "rate": 4,
     "duration": "2h 30m",
     "subscription_type_required": "Premium"
-  },
-  ...
+  }
 ]
 ```
 
@@ -340,8 +333,7 @@
     "rate": 4,
     "duration": "2h 30m",
     "subscription_type_required": "Premium"
-  },
-  ...
+  }
 ]
 ```
 
@@ -751,8 +743,7 @@
     "name": "Premium",
     "price": 9.99,
     "duration": "1 Month"
-  },
-  ...
+  }
 ]
 ```
 
