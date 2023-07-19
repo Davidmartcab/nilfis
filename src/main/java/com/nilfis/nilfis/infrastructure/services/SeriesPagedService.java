@@ -52,9 +52,21 @@ public class SeriesPagedService implements ISeriesPagedService {
         films.forEach(film -> {
             boolean valid = true;
             if(Objects.nonNull(request.getType_name())) {
-                if( !film.getSubscription_type_required().equalsIgnoreCase(request.getType_name())) {
-                    valid = false;
-                    return;
+                if(request.getType_name().equals("null")) {
+                    if(Objects.nonNull(film.getSubscription_type_required())) {
+                        valid = false;
+                        return;
+                    }
+                }else {
+                    if(Objects.isNull(film.getSubscription_type_required())) {
+                        valid = false;
+                        return;
+                    }else {
+                        if(!film.getSubscription_type_required().toLowerCase().contains(request.getType_name().toLowerCase())) {
+                            valid = false;
+                            return;
+                        }
+                    }
                 }
             }
 
@@ -115,6 +127,7 @@ public class SeriesPagedService implements ISeriesPagedService {
         List<SeriesResponse> responseList = new ArrayList<>(response);
         int start = (int) pageRequest.getOffset();
         int end = Math.min((start + pageRequest.getPageSize()), responseList.size());
+        end = Math.max(start, end);
         return new PageImpl<>(responseList.subList(start, end), pageRequest, responseList.size());
     }
 
