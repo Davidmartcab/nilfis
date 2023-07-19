@@ -1,6 +1,11 @@
 # NILFIS API Documentation
 
-This document provides an overview of the endpoints available in the NILFIS API. The API allows users to perform various operations related to customers, films, series, films watched, series watched, subscriptions, and subscription types.
+This document provides an overview of the endpoints available in the NILFIS API. The API allows users to perform various operations related to customers, films, series, films watched, series watched, subscriptions, and subscription types. 
+
+When appear:
+- 10 -> Integer
+- 100 -> Long
+- 10.100 -> BigDecimal
 ## Customers Endpoint
 ### Create a Customer
 - URL: `/customers`
