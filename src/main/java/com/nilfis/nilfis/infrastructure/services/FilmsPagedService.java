@@ -63,7 +63,7 @@ public class FilmsPagedService implements IFilmsPagedService {
                         valid = false;
                         return;
                     }else {
-                        if(!film.getSubscription_type_required().equalsIgnoreCase(request.getType_name())) {
+                        if(!film.getSubscription_type_required().toLowerCase().contains(request.getType_name().toLowerCase())) {
                             valid = false;
                             return;
                         }
