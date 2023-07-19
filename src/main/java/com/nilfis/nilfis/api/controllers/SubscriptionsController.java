@@ -66,11 +66,4 @@ public class SubscriptionsController {
         return ResponseEntity.noContent().build();
     }
 
-//    @DeleteMapping()
-//    public ResponseEntity<Void> deleteAll() {
-//        this.subscriptionsService.deleteAll();
-//        return ResponseEntity.noContent().build();
-//    }
-
-
 }
