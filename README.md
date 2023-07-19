@@ -1,773 +1,919 @@
-# Nilfis API EndPoints
+# NILFIS API Documentation
 
-## CustomersController
+This document provides an overview of the endpoints available in the NILFIS API. The API allows users to perform various operations related to customers, films, series, films watched, series watched, subscriptions, and subscription types.
+## Customers Endpoint
+### Create a Customer
+- URL: `/customers`
+- Method: `POST`
+- Request Body:
 
-### POST /nilfis/customers
-
-- Description: Creates a new customer.
-- Request:
-
-```perl
+```json
 
 {
-  "name": "John Doe",
-  "email": "john.doe@example.com",
-  "phone": "34657891284",
-  "country": "United States"
+  "id": "<UUID>",
+  "name": "<String>",
+  "email": "<String>",
+  "phone": "<String>",
+  "country": "<String>"
 }
 ``` 
-
 - Response:
+- Status Code: `200 OK`
+- Response Body:
 
 ```json
 
 {
-  "id": "123e4567-e89b-12d3-a456-426655440000",
-  "name": "John Doe",
-  "email": "john.doe@example.com",
-  "phone": "34657891284",
-  "country": "United States",
+  "id": "<UUID>",
+  "name": "<String>",
+  "email": "<String>",
+  "phone": "<String>",
+  "country": "<String>",
   "verified": false
 }
 ```
-
-### GET /nilfis/customers/{id}
-
-- Description: Retrieves customer details by ID.
-- Request: No request body required.
+### Get a Customer by ID
+- URL: `/customers/{id}`
+- Method: `GET`
+- Path Variable: `id` - The ID of the customer.
 - Response:
+- Status Code: `200 OK`
+- Response Body:
 
 ```json
 
 {
-  "id": "123e4567-e89b-12d3-a456-426655440000",
-  "name": "John Doe",
-  "email": "john.doe@example.com",
-  "phone": "34657891284",
-  "country": "United States",
+  "id": "<UUID>",
+  "name": "<String>",
+  "email": "<String>",
+  "phone": "<String>",
+  "country": "<String>",
   "verified": false
 }
 ```
-
-### GET /nilfis/customers/email/{email}
-
-- Description: Retrieves customer details by email.
-- Request: No request body required.
+### Get a Customer by Email
+- URL: `/customers/email/{email}`
+- Method: `GET`
+- Path Variable: `email` - The email of the customer.
 - Response:
+- Status Code: `200 OK`
+- Response Body:
 
 ```json
 
 {
-  "id": "123e4567-e89b-12d3-a456-426655440000",
-  "name": "John Doe",
-  "email": "john.doe@example.com",
-  "phone": "34657891284",
-  "country": "United States",
+  "id": "<UUID>",
+  "name": "<String>",
+  "email": "<String>",
+  "phone": "<String>",
+  "country": "<String>",
   "verified": false
 }
 ```
-
-### GET /nilfis/customers
-
-- Description: Retrieves all customers.
-- Request: No request body required.
+### Get All Customers
+- URL: `/customers`
+- Method: `GET`
 - Response:
+- Status Code: `200 OK`
+- Response Body: Array of customer objects:
 
 ```json
 
 [
   {
-    "id": "123e4567-e89b-12d3-a456-426655440000",
-    "name": "John Doe",
-    "email": "john.doe@example.com",
-    "phone": "34657891284",
-    "country": "United States",
+    "id": "<UUID>",
+    "name": "<String>",
+    "email": "<String>",
+    "phone": "<String>",
+    "country": "<String>",
     "verified": false
   }
 ]
 ```
-
-### DELETE /nilfis/customers/{id}
-
-- Description: Deletes a customer by ID.
-- Request: No request body required.
-- Response: No data returned.
-
-### GET /nilfis/customers/verify/{id}
-
-- Description: Verifies a customer by ID.
-- Request: No request body required.
-- Response: No data returned.
-
-## FilmsController
-
-### POST /nilfis/films
-
-- Description: Creates a new film.
-- Request:
+### Delete a Customer
+- URL: `/customers/{id}`
+- Method: `DELETE`
+- Path Variable: `id` - The ID of the customer.
+- Response:
+- Status Code: `204 No Content`
+## Films Endpoint
+### Create a Film
+- URL: `/films/new`
+- Method: `POST`
+- Request Body:
 
 ```json
 
 {
-  "title": "Film Title",
-  "director": "John Director",
-  "year": "2023",
-  "url": "https://example.com/film",
-  "rate": 4,
-  "duration": "2h 30m",
-  "subscription_type_required": "Premium"
+  "title": "<String>",
+  "director": "<String>",
+  "year": "<String>",
+  "url": "<String>",
+  "rate": 10,
+  "duration": "<String>",
+  "subscription_type_required": "<String>"
 }
 ``` 
-
 - Response:
+- Status Code: `200 OK`
+- Response Body:
 
 ```json
 
 {
-  "id": "123e4567-e89b-12d3-a456-426655440001",
-  "title": "Film Title",
-  "director": "John Director",
-  "year": "2023",
-  "url": "https://example.com/film",
-  "rate": 4,
-  "duration": "2h 30m",
-  "subscription_type_required": "Premium"
+  "id": "<UUID>",
+  "title": "<String>",
+  "director": "<String>",
+  "year": "<String>",
+  "url": "<String>",
+  "rate": 10,
+  "duration": "<String>",
+  "subscription_type_required": "<String>"
 }
 ```
-
-### GET /nilfis/films/{id}
-
-- Description: Retrieves film details by ID.
-- Request: No request body required.
+### Get a Film by ID
+- URL: `/films/{id}`
+- Method: `GET`
+- Path Variable: `id` - The ID of the film.
 - Response:
+- Status Code: `200 OK`
+- Response Body:
 
 ```json
 
 {
-  "id": "123e4567-e89b-12d3-a456-426655440001",
-  "title": "Film Title",
-  "director": "John Director",
-  "year": "2023",
-  "url": "https://example.com/film",
-  "rate": 4,
-  "duration": "2h 30m",
-  "subscription_type_required": "Premium"
+  "id": "<UUID>",
+  "title": "<String>",
+  "director": "<String>",
+  "year": "<String>",
+  "url": "<String>",
+  "rate": 10,
+  "duration": "<String>",
+  "subscription_type_required": "<String>"
 }
 ```
-
-### GET /nilfis/films
-
-- Description: Retrieves all films.
-- Request: No request body required.
-- Response:
-
-```json
-
-[
-  {
-    "id": "123e4567-e89b-12d3-a456-426655440001",
-    "title": "Film Title",
-    "director": "John Director",
-    "year": "2023",
-    "url": "https://example.com/film",
-    "rate": 4,
-    "duration": "2h 30m",
-    "subscription_type_required": "Premium"
-  }
-]
-```
-
-### DELETE /nilfis/films/{id}
-
-- Description: Deletes a film by ID.
-- Request: No request body required.
-- Response: No data returned.
-
-### GET /nilfis/films/sbsType/{type}
-
-- Description: Retrieves films by subscription type.
-- Request: No request body required.
-- Response:
-
-```json
-
-[
-  {
-    "id": "123e4567-e89b-12d3-a456-426655440001",
-    "title": "Film Title",
-    "director": "John Director",
-    "year": "2023",
-    "url": "https://example.com/film",
-    "rate": 4,
-    "duration": "2h 30m",
-    "subscription_type_required": "Premium"
-  }
-]
-```
-
-### GET /nilfis/films/rateG/{rate}
-
-- Description: Retrieves films with a rate greater than the specified value.
-- Request: No request body required.
-- Response:
-
-```json
-
-[
-  {
-    "id": "123e4567-e89b-12d3-a456-426655440001",
-    "title": "Film Title",
-    "director": "John Director",
-    "year": "2023",
-    "url": "https://example.com/film",
-    "rate": 4,
-    "duration": "2h 30m",
-    "subscription_type_required": "Premium"
-  }
-]
-```
-
-### GET /nilfis/films/rateL/{rate}
-
-- Description: Retrieves films with a rate lower than the specified value.
-- Request: No request body required.
-- Response:
-
-```json
-
-[
-  {
-    "id": "123e4567-e89b-12d3-a456-426655440001",
-    "title": "Film Title",
-    "director": "John Director",
-    "year": "2023",
-    "url": "https://example.com/film",
-    "rate": 4,
-    "duration": "2h 30m",
-    "subscription_type_required": "Premium"
-  }
-]
-```
-
-### GET /nilfis/films/rateB/{minRate}/{maxRate}
-
-- Description: Retrieves films with a rate between the specified values.
-- Request: No request body required.
-- Response:
-
-```json
-
-[
-  {
-    "id": "123e4567-e89b-12d3-a456-426655440001",
-    "title": "Film Title",
-    "director": "John Director",
-    "year": "2023",
-    "url": "https://example.com/film",
-    "rate": 4,
-    "duration": "2h 30m",
-    "subscription_type_required": "Premium"
-  }
-]
-```
-
-### GET /nilfis/films/title/{title}
-
-- Description: Retrieves films with titles starting with the specified value.
-- Request: No request body required.
-- Response:
-
-```json
-
-[
-  {
-    "id": "123e4567-e89b-12d3-a456-426655440001",
-    "title": "Film Title",
-    "director": "John Director",
-    "year": "2023",
-    "url": "https://example.com/film",
-    "rate": 4,
-    "duration": "2h 30m",
-    "subscription_type_required": "Premium"
-  }
-]
-```
-
-### GET /nilfis/films/director/{director}
-
-- Description: Retrieves films with directors' names starting with the specified value.
-- Request: No request body required.
-- Response:
-
-```json
-
-[
-  {
-    "id": "123e4567-e89b-12d3-a456-426655440001",
-    "title": "Film Title",
-    "director": "John Director",
-    "year": "2023",
-    "url": "https://example.com/film",
-    "rate": 4,
-    "duration": "2h 30m",
-    "subscription_type_required": "Premium"
-  }
-]
-```
-
-### GET /nilfis/films/year/{startYear}/{endYear}
-
-- Description: Retrieves films released between the specified years.
-- Request: No request body required.
-- Response:
-
-```json
-
-[
-  {
-    "id": "123e4567-e89b-12d3-a456-426655440001",
-    "title": "Film Title",
-    "director": "John Director",
-    "year": "2023",
-    "url": "https://example.com/film",
-    "rate": 4,
-    "duration": "2h 30m",
-    "subscription_type_required": "Premium"
-  }
-]
-```
-
-## SeriesController
-
-(Same as FilmsController but with series data)
-
-## FilmsWatchedController
-
-### POST /nilfis/filmsW
-
-- Description: Records that a film has been watched by a customer.
-- Request:
+### Get All Films
+- URL: `/films`
+- Method: `POST`
+- Request Headers:
+- `page` (optional, default: 0) - The page number for pagination.
+- `size` (optional, default: 10) - The number of films per page.
+- `sortType` (optional) - The type of sorting (NONE, ASC, DESC).
+- Request Body (optional):
 
 ```json
 
 {
-  "customer_id": "123e4567-e89b-12d3-a456-426655440000",
-  "film_id": "123e4567-e89b-12d3-a456-426655440001"
+  "type_name": "<String>",
+  "minRate": 10,
+  "maxRate": 10,
+  "titleStart": "<String>",
+  "directorStart": "<String>",
+  "yearStart": "<String>",
+  "yearEnd": "<String>"
 }
 ``` 
-
 - Response:
+- Status Code: `200 OK`
+- Response Body: Array of film objects:
+
+```json
+
+[
+  {
+    "id": "<UUID>",
+    "title": "<String>",
+    "director": "<String>",
+    "year": "<String>",
+    "url": "<String>",
+    "rate": 10,
+    "duration": "<String>",
+    "subscription_type_required": "<String>"
+  }
+]
+```
+### Delete a Film
+- URL: `/films/{id}`
+- Method: `DELETE`
+- Path Variable: `id` - The ID of the film.
+- Response:
+- Status Code: `204 No Content`
+## Films Watched Endpoint
+### Create Films Watched
+- URL: `/filmsW`
+- Method: `POST`
+- Request Body:
 
 ```json
 
 {
-  "id": "123e4567-e89b-12d3-a456-426655440002",
-  "date": "2023-07-18",
+  "customer_id": "<UUID>",
+  "film_id": "<UUID>"
+}
+``` 
+- Response:
+- Status Code: `200 OK`
+- Response Body:
+
+```json
+
+{
+  "id": "<UUID>",
+  "date": "<LocalDate>",
   "customer": {
-    "id": "123e4567-e89b-12d3-a456-426655440000",
-    "name": "John Doe",
-    "email": "john.doe@example.com",
-    "phone": "34657891284",
-    "country": "United States",
+    "id": "<UUID>",
+    "name": "<String>",
+    "email": "<String>",
+    "phone": "<String>",
+    "country": "<String>",
     "verified": false
   },
   "film": {
-    "id": "123e4567-e89b-12d3-a456-426655440001",
-    "title": "Film Title",
-    "director": "John Director",
-    "year": "2023",
-    "url": "https://example.com/film",
-    "rate": 4,
-    "duration": "2h 30m",
-    "subscription_type_required": "Premium"
+    "id": "<UUID>",
+    "title": "<String>",
+    "director": "<String>",
+    "year": "<String>",
+    "url": "<String>",
+    "rate": 10,
+    "duration": "<String>",
+    "subscription_type_required": "<String>"
   }
 }
 ```
-
-### GET /nilfis/filmsW/{id}
-
-- Description: Retrieves details of a watched film by ID.
-- Request: No request body required.
+### Get Films Watched by ID
+- URL: `/filmsW/{id}`
+- Method: `GET`
+- Path Variable: `id` - The ID of the films watched entry.
 - Response:
+- Status Code: `200 OK`
+- Response Body:
 
 ```json
 
 {
-  "id": "123e4567-e89b-12d3-a456-426655440002",
-  "date": "2023-07-18",
+  "id": "<UUID>",
+  "date": "<LocalDate>",
   "customer": {
-    "id": "123e4567-e89b-12d3-a456-426655440000",
-    "name": "John Doe",
-    "email": "john.doe@example.com",
-    "phone": "34657891284",
-    "country": "United States",
+    "id": "<UUID>",
+    "name": "<String>",
+    "email": "<String>",
+    "phone": "<String>",
+    "country": "<String>",
     "verified": false
   },
   "film": {
-    "id": "123e4567-e89b-12d3-a456-426655440001",
-    "title": "Film Title",
-    "director": "John Director",
-    "year": "2023",
-    "url": "https://example.com/film",
-    "rate": 4,
-    "duration": "2h 30m",
-    "subscription_type_required": "Premium"
+    "id": "<UUID>",
+    "title": "<String>",
+    "director": "<String>",
+    "year": "<String>",
+    "url": "<String>",
+    "rate": 10,
+    "duration": "<String>",
+    "subscription_type_required": "<String>"
   }
 }
 ```
-
-### GET /nilfis/filmsW
-
-- Description: Retrieves all watched films.
-- Request: No request body required.
+### Get All Films Watched
+- URL: `/filmsW`
+- Method: `GET`
 - Response:
+- Status Code: `200 OK`
+- Response Body: Array of films watched objects:
 
 ```json
 
 [
   {
-    "id": "123e4567-e89b-12d3-a456-426655440002",
-    "date": "2023-07-18",
+    "id": "<UUID>",
+    "date": "<LocalDate>",
     "customer": {
-      "id": "123e4567-e89b-12d3-a456-426655440000",
-      "name": "John Doe",
-      "email": "john.doe@example.com",
-      "phone": "34657891284",
-      "country": "United States",
+      "id": "<UUID>",
+      "name": "<String>",
+      "email": "<String>",
+      "phone": "<String>",
+      "country": "<String>",
       "verified": false
     },
     "film": {
-      "id": "123e4567-e89b-12d3-a456-426655440001",
-      "title": "Film Title",
-      "director": "John Director",
-      "year": "2023",
-      "url": "https://example.com/film",
-      "rate": 4,
-      "duration": "2h 30m",
-      "subscription_type_required": "Premium"
+      "id": "<UUID>",
+      "title": "<String>",
+      "director": "<String>",
+      "year": "<String>",
+      "url": "<String>",
+      "rate": 10,
+      "duration": "<String>",
+      "subscription_type_required": "<String>"
     }
   }
 ]
 ```
-
-### DELETE /nilfis/filmsW/{id}
-
-- Description: Deletes a watched film record by ID.
-- Request: No request body required.
-- Response: No data returned.
-
-### GET /nilfis/filmsW/byFilm/{id}
-
-- Description: Retrieves the number of times a film has been watched by its ID.
-- Request: No request body required.
+### Delete Films Watched
+- URL: `/filmsW/{id}`
+- Method: `DELETE`
+- Path Variable: `id` - The ID of the films watched entry.
 - Response:
+- Status Code: `204 No Content`
+### Get Films Watched by Film ID
+- URL: `/filmsW/byFilm/{id}`
+- Method: `GET`
+- Path Variable: `id` - The ID of the film.
+- Response:
+- Status Code: `200 OK`
+- Response Body:
 
 ```json
 
 {
   "film": {
-    "id": "123e4567-e89b-12d3-a456-426655440001",
-    "title": "Film Title",
-    "director": "John Director",
-    "year": "2023",
-    "url": "https://example.com/film",
-    "rate": 4,
-    "duration": "2h 30m",
-    "subscription_type_required": "Premium"
+    "id": "<UUID>",
+    "title": "<String>",
+    "director": "<String>",
+    "year": "<String>",
+    "url": "<String>",
+    "rate": 10,
+    "duration": "<String>",
+    "subscription_type_required": "<String>"
   },
-  "count": 5
+  "count": 100
 }
 ```
-
-### GET /nilfis/filmsW/byCustomer/{id}
-
-- Description: Retrieves films watched by a customer by customer ID.
-- Request: No request body required.
+### Get Films Watched by Customer ID
+- URL: `/filmsW/byCustomer/{id}`
+- Method: `GET`
+- Path Variable: `id` - The ID of the customer.
 - Response:
+- Status Code: `200 OK`
+- Response Body:
 
 ```json
 
 {
   "customer": {
-    "id": "123e4567-e89b-12d3-a456-426655440000",
-    "name": "John Doe",
-    "email": "john.doe@example.com",
-    "phone": "34657891284",
-    "country": "United States",
+    "id": "<UUID>",
+    "name": "<String>",
+    "email": "<String>",
+    "phone": "<String>",
+    "country": "<String>",
     "verified": false
   },
   "films": [
     {
-      "id": "123e4567-e89b-12d3-a456-426655440001",
-      "title": "Film Title",
-      "director": "John Director",
-      "year": "2023",
-      "url": "https://example.com/film",
-      "rate": 4,
-      "duration": "2h 30m",
-      "subscription_type_required": "Premium"
+      "id": "<UUID>",
+      "title": "<String>",
+      "director": "<String>",
+      "year": "<String>",
+      "url": "<String>",
+      "rate": 10,
+      "duration": "<String>",
+      "subscription_type_required": "<String>"
     }
   ]
 }
 ```
-
-## SeriesWatchedController
-
-(Same as FilmsWatchedController but with series data)
-
-## SubscriptionsController
-
-### POST /nilfis/sbs
-
-- Description: Creates a new subscription.
-- Request:
+## Series Endpoint
+### Create a Series
+- URL: `/series/new`
+- Method: `POST`
+- Request Body:
 
 ```json
 
 {
-  "customer_id": "123e4567-e89b-12d3-a456-426655440000",
-  "subscriptionsType": "Premium"
+  "title": "<String>",
+  "director": "<String>",
+  "year": "<String>",
+  "url": "<String>",
+  "rate": 10,
+  "chapters": 10,
+  "subscription_type_required": "<String>"
 }
 ``` 
-
 - Response:
+- Status Code: `200 OK`
+- Response Body:
 
 ```json
 
 {
-  "id": "123e4567-e89b-12d3-a456-426655440003",
-  "date_start": "2023-07-18",
-  "date_end": "2023-08-18",
+  "id": "<UUID>",
+  "title": "<String>",
+  "director": "<String>",
+  "year": "<String>",
+  "url": "<String>",
+  "rate": 10,
+  "chapters": 10,
+  "subscription_type_required": "<String>"
+}
+```
+### Get a Series by ID
+- URL: `/series/{id}`
+- Method: `GET`
+- Path Variable: `id` - The ID of the series.
+- Response:
+- Status Code: `200 OK`
+- Response Body:
+
+```json
+
+{
+  "id": "<UUID>",
+  "title": "<String>",
+  "director": "<String>",
+  "year": "<String>",
+  "url": "<String>",
+  "rate": 10,
+  "chapters": 10,
+  "subscription_type_required": "<String>"
+}
+```
+### Get All Series
+- URL: `/series`
+- Method: `POST`
+- Request Headers:
+- `page` (optional, default: 0) - The page number for pagination.
+- `size` (optional, default: 10) - The number of series per page.
+- `sortType` (optional) - The type of sorting (NONE, ASC, DESC).
+- Request Body (optional):
+
+```json
+
+{
+  "type_name": "<String>",
+  "minRate": 10,
+  "maxRate": 10,
+  "titleStart": "<String>",
+  "directorStart": "<String>",
+  "yearStart": "<String>",
+  "yearEnd": "<String>"
+}
+``` 
+- Response:
+- Status Code: `200 OK`
+- Response Body: Array of series objects:
+
+```json
+
+[
+  {
+    "id": "<UUID>",
+    "title": "<String>",
+    "director": "<String>",
+    "year": "<String>",
+    "url": "<String>",
+    "rate": 10,
+    "chapters": 10,
+    "subscription_type_required": "<String>"
+  }
+]
+```
+### Delete a Series
+- URL: `/series/{id}`
+- Method: `DELETE`
+- Path Variable: `id` - The ID of the series.
+- Response:
+- Status Code: `204 No Content`
+## Series Watched Endpoint
+### Create Series Watched
+- URL: `/seriesW`
+- Method: `POST`
+- Request Body:
+
+```json
+
+{
+  "customer_id": "<UUID>",
+  "serie_id": "<UUID>"
+}
+``` 
+- Response:
+- Status Code: `200 OK`
+- Response Body:
+
+```json
+
+{
+  "id": "<UUID>",
+  "date": "<LocalDate>",
   "customer": {
-    "id": "123e4567-e89b-12d3-a456-426655440000",
-    "name": "John Doe",
-    "email": "john.doe@example.com",
-    "phone": "34657891284",
-    "country": "United States",
+    "id": "<UUID>",
+    "name": "<String>",
+    "email": "<String>",
+    "phone": "<String>",
+    "country": "<String>",
+    "verified": false
+  },
+  "serie": {
+    "id": "<UUID>",
+    "title": "<String>",
+    "director": "<String>",
+    "year": "<String>",
+    "url": "<String>",
+    "rate": 10,
+    "chapters": 10,
+    "subscription_type_required": "<String>"
+  }
+}
+```
+### Get Series Watched by ID
+- URL: `/seriesW/{id}`
+- Method: `GET`
+- Path Variable: `id` - The ID of the series watched entry.
+- Response:
+- Status Code: `200 OK`
+- Response Body:
+
+```json
+
+{
+  "id": "<UUID>",
+  "date": "<LocalDate>",
+  "customer": {
+    "id": "<UUID>",
+    "name": "<String>",
+    "email": "<String>",
+    "phone": "<String>",
+    "country": "<String>",
+    "verified": false
+  },
+  "serie": {
+    "id": "<UUID>",
+    "title": "<String>",
+    "director": "<String>",
+    "year": "<String>",
+    "url": "<String>",
+    "rate": 10,
+    "chapters": 10,
+    "subscription_type_required": "<String>"
+  }
+}
+```
+### Get All Series Watched
+- URL: `/seriesW`
+- Method: `GET`
+- Response:
+- Status Code: `200 OK`
+- Response Body: Array of series watched objects:
+
+```json
+
+[
+  {
+    "id": "<UUID>",
+    "date": "<LocalDate>",
+    "customer": {
+      "id": "<UUID>",
+      "name": "<String>",
+      "email": "<String>",
+      "phone": "<String>",
+      "country": "<String>",
+      "verified": false
+    },
+    "serie": {
+      "id": "<UUID>",
+      "title": "<String>",
+      "director": "<String>",
+      "year": "<String>",
+      "url": "<String>",
+      "rate": 10,
+      "chapters": 10,
+      "subscription_type_required": "<String>"
+    }
+  }
+]
+```
+### Delete Series Watched
+- URL: `/seriesW/{id}`
+- Method: `DELETE`
+- Path Variable: `id` - The ID of the series watched entry.
+- Response:
+- Status Code: `204 No Content`
+### Get Series Watched by Series ID
+- URL: `/seriesW/bySerie/{id}`
+- Method: `GET`
+- Path Variable: `id` - The ID of the series.
+- Response:
+- Status Code: `200 OK`
+- Response Body:
+
+```json
+
+{
+  "serie": {
+    "id": "<UUID>",
+    "title": "<String>",
+    "director": "<String>",
+    "year": "<String>",
+    "url": "<String>",
+    "rate": 10,
+    "chapters": 10,
+    "subscription_type_required": "<String>"
+  },
+  "count": 100
+}
+```
+### Get Series Watched by Customer ID
+- URL: `/seriesW/byCustomer/{id}`
+- Method: `GET`
+- Path Variable: `id` - The ID of the customer.
+- Response:
+- Status Code: `200 OK`
+- Response Body:
+
+```json
+
+{
+  "customer": {
+    "id": "<UUID>",
+    "name": "<String>",
+    "email": "<String>",
+    "phone": "<String>",
+    "country": "<String>",
+    "verified": false
+  },
+  "series": [
+    {
+      "id": "<UUID>",
+      "title": "<String>",
+      "director": "<String>",
+      "year": "<String>",
+      "url": "<String>",
+      "rate": 10,
+      "chapters": 10,
+      "subscription_type_required": "<String>"
+    }
+  ]
+}
+```
+## Subscriptions Endpoint
+### Create a Subscription
+- URL: `/sbs`
+- Method: `POST`
+- Request Body:
+
+```json
+
+{
+  "customer_id": "<UUID>",
+  "subscriptionsType": "<String>"
+}
+``` 
+- Response:
+- Status Code: `200 OK`
+- Response Body:
+
+```json
+
+{
+  "id": "<UUID>",
+  "date_start": "<LocalDate>",
+  "date_end": "<LocalDate>",
+  "customer": {
+    "id": "<UUID>",
+    "name": "<String>",
+    "email": "<String>",
+    "phone": "<String>",
+    "country": "<String>",
     "verified": false
   },
   "type": {
-    "id": "123e4567-e89b-12d3-a456-426655440004",
-    "name": "Premium",
-    "price": 9.99,
-    "duration": "1 Month"
+    "id": "<UUID>",
+    "name": "<String>",
+    "price": 10.100,
+    "duration": "<String>"
   }
 }
 ```
-
-### GET /nilfis/sbs
-
-- Description: Retrieves all subscriptions.
-- Request: No request body required.
+### Get All Subscriptions
+- URL: `/sbs`
+- Method: `GET`
 - Response:
+- Status Code: `200 OK`
+- Response Body: Array of subscription objects:
 
 ```json
 
 [
   {
-    "id": "123e4567-e89b-12d3-a456-426655440003",
-    "date_start": "2023-07-18",
-    "date_end": "2023-08-18",
+    "id": "<UUID>",
+    "date_start": "<LocalDate>",
+    "date_end": "<LocalDate>",
     "customer": {
-      "id": "123e4567-e89b-12d3-a456-426655440000",
-      "name": "John Doe",
-      "email": "john.doe@example.com",
-      "phone": "34657891284",
-      "country": "United States",
+      "id": "<UUID>",
+      "name": "<String>",
+      "email": "<String>",
+      "phone": "<String>",
+      "country": "<String>",
       "verified": false
     },
     "type": {
-      "id": "123e4567-e89b-12d3-a456-426655440004",
-      "name": "Premium",
-      "price": 9.99,
-      "duration": "1 Month"
+      "id": "<UUID>",
+      "name": "<String>",
+      "price": 10.100,
+      "duration": "<String>"
     }
   }
 ]
 ```
-
-### GET /nilfis/sbs/{id}
-
-- Description: Retrieves subscription details by ID.
-- Request: No request body required.
+### Get a Subscription by ID
+- URL: `/sbs/{id}`
+- Method: `GET`
+- Path Variable: `id` - The ID of the subscription.
 - Response:
+- Status Code: `200 OK`
+- Response Body:
 
 ```json
 
 {
-  "id": "123e4567-e89b-12d3-a456-426655440003",
-  "date_start": "2023-07-18",
-  "date_end": "2023-08-18",
+  "id": "<UUID>",
+  "date_start": "<LocalDate>",
+  "date_end": "<LocalDate>",
   "customer": {
-    "id": "123e4567-e89b-12d3-a456-426655440000",
-    "name": "John Doe",
-    "email": "john.doe@example.com",
-    "phone": "34657891284",
-    "country": "United States",
+    "id": "<UUID>",
+    "name": "<String>",
+    "email": "<String>",
+    "phone": "<String>",
+    "country": "<String>",
     "verified": false
   },
   "type": {
-    "id": "123e4567-e89b-12d3-a456-426655440004",
-    "name": "Premium",
-    "price": 9.99,
-    "duration": "1 Month"
+    "id": "<UUID>",
+    "name": "<String>",
+    "price": 10.100,
+    "duration": "<String>"
   }
 }
 ```
-
-### DELETE /nilfis/sbs/{id}
-
-- Description: Deletes a subscription by ID.
-- Request: No request body required.
-- Response: No data returned.
-
-### GET /nilfis/sbs/customer/{id}
-
-- Description: Retrieves all subscriptions of a customer by customer ID.
-- Request: No request body required.
+### Delete a Subscription
+- URL: `/sbs/{id}`
+- Method: `DELETE`
+- Path Variable: `id` - The ID of the subscription.
 - Response:
+- Status Code: `204 No Content`
+### Get Subscriptions by Customer ID
+- URL: `/sbs/customer/{id}`
+- Method: `GET`
+- Path Variable: `id` - The ID of the customer.
+- Response:
+- Status Code: `200 OK`
+- Response Body: Array of subscription objects:
 
 ```json
 
 [
   {
-    "id": "123e4567-e89b-12d3-a456-426655440003",
-    "date_start": "2023-07-18",
-    "date_end": "2023-08-18",
+    "id": "<UUID>",
+    "date_start": "<LocalDate>",
+    "date_end": "<LocalDate>",
     "customer": {
-      "id": "123e4567-e89b-12d3-a456-426655440000",
-      "name": "John Doe",
-      "email": "john.doe@example.com",
-      "phone": "34657891284",
-      "country": "United States",
+      "id": "<UUID>",
+      "name": "<String>",
+      "email": "<String>",
+      "phone": "<String>",
+      "country": "<String>",
       "verified": false
     },
     "type": {
-      "id": "123e4567-e89b-12d3-a456-426655440004",
-      "name": "Premium",
-      "price": 9.99,
-      "duration": "1 Month"
+      "id": "<UUID>",
+      "name": "<String>",
+      "price": 10.100,
+      "duration": "<String>"
     }
   }
 ]
 ```
-
-### DELETE /nilfis/sbs/customer/{id}
-
-- Description: Deletes all subscriptions of a customer by customer ID.
-- Request: No request body required.
-- Response: No data returned.
-
-### GET /nilfis/sbs/customer/active/{id}
-
-- Description: Retrieves active subscriptions of a customer by customer ID.
-- Request: No request body required.
+### Delete Subscriptions by Customer ID
+- URL: `/sbs/customer/{id}`
+- Method: `DELETE`
+- Path Variable: `id` - The ID of the customer.
 - Response:
+- Status Code: `204 No Content`
+### Get Active Subscriptions by Customer ID
+- URL: `/sbs/customer/active/{id}`
+- Method: `GET`
+- Path Variable: `id` - The ID of the customer.
+- Response:
+- Status Code: `200 OK`
+- Response Body: Array of subscription objects:
 
 ```json
 
 [
   {
-    "id": "123e4567-e89b-12d3-a456-426655440003",
-    "date_start": "2023-07-18",
-    "date_end": "2023-08-18",
+    "id": "<UUID>",
+    "date_start": "<LocalDate>",
+    "date_end": "<LocalDate>",
     "customer": {
-      "id": "123e4567-e89b-12d3-a456-426655440000",
-      "name": "John Doe",
-      "email": "john.doe@example.com",
-      "phone": "34657891284",
-      "country": "United States",
+      "id": "<UUID>",
+      "name": "<String>",
+      "email": "<String>",
+      "phone": "<String>",
+      "country": "<String>",
       "verified": false
     },
     "type": {
-      "id": "123e4567-e89b-12d3-a456-426655440004",
-      "name": "Premium",
-      "price": 9.99,
-      "duration": "1 Month"
+      "id": "<UUID>",
+      "name": "<String>",
+      "price": 10.100,
+      "duration": "<String>"
     }
   }
 ]
 ```
-
-### DELETE /nilfis/sbs/customer/active/{id}
-
-- Description: Deletes all expired subscriptions of a customer by customer ID.
-- Request: No request body required.
-- Response: No data returned.
-
-### DELETE /nilfis/sbs/active
-
-- Description: Deletes all expired subscriptions.
-- Request: No request body required.
-- Response: No data returned.
-
-## SubscriptionTypesController
-
-### POST /nilfis/sbsTypes
-
-- Description: Creates a new subscription type.
-- Request:
+## Subscription Types Endpoint
+### Create a Subscription Type
+- URL: `/sbstypes`
+- Method: `POST`
+- Request Body:
 
 ```json
 
 {
-  "name": "Premium",
-  "price": 9.99,
-  "duration": "1 Month"
+  "name": "<String>",
+  "price": 10.100,
+  "duration": "<String>"
 }
 ``` 
-
 - Response:
+- Status Code: `200 OK`
+- Response Body:
 
 ```json
 
 {
-  "id": "123e4567-e89b-12d3-a456-426655440004",
-  "name": "Premium",
-  "price": 9.99,
-  "duration": "1 Month"
+  "id": "<UUID>",
+  "name": "<String>",
+  "price": 10.100,
+  "duration": "<String>"
 }
 ```
-
-### GET /nilfis/sbsTypes
-
-- Description: Retrieves all subscription types.
-- Request: No request body required.
+### Get All Subscription Types
+- URL: `/sbstypes`
+- Method: `GET`
 - Response:
+- Status Code: `200 OK`
+- Response Body: Array of subscription type objects:
 
 ```json
 
 [
   {
-    "id": "123e4567-e89b-12d3-a456-426655440004",
-    "name": "Premium",
-    "price": 9.99,
-    "duration": "1 Month"
+    "id": "<UUID>",
+    "name": "<String>",
+    "price": 10.100,
+    "duration": "<String>"
   }
 ]
 ```
-
-### GET /nilfis/sbsTypes/{id}
-
-- Description: Retrieves subscription type details by ID.
-- Request: No request body required.
+### Get a Subscription Type by ID
+- URL: `/sbstypes/{id}`
+- Method: `GET`
+- Path Variable: `id` - The ID of the subscription type.
 - Response:
+- Status Code: `200 OK`
+- Response Body:
 
 ```json
 
 {
-  "id": "123e4567-e89b-12d3-a456-426655440004",
-  "name": "Premium",
-  "price": 9.99,
-  "duration": "1 Month"
+  "id": "<UUID>",
+  "name": "<String>",
+  "price": 10.100,
+  "duration": "<String>"
+}
+```
+### Delete a Subscription Type
+- URL: `/sbstypes/{id}`
+- Method: `DELETE`
+- Path Variable: `id` - The ID of the subscription type.
+- Response:
+- Status Code: `204 No Content`
+### Update a Subscription Type
+- URL: `/sbstypes/{id}`
+- Method: `PUT`
+- Path Variable: `id` - The ID of the subscription type.
+- Request Body:
+
+```json
+
+{
+  "name": "<String>",
+  "price": 10.100,
+  "duration": "<String>"
+}
+``` 
+- Response:
+- Status Code: `200 OK`
+- Response Body:
+
+```json
+
+{
+  "id": "<UUID>",
+  "name": "<String>",
+  "price": 10.100,
+  "duration": "<String>"
 }
 ```
 
-### DELETE /nilfis/sbsTypes/{id}
-
-- Description: Deletes a subscription type by ID.
-- Request: No request body required.
-- Response: No data returned.
-
-I hope this information helps you understand the endpoints and their functionalities.
-If you have any further questions or need additional clarification, feel free to ask!
+This documentation provides an overview of the available endpoints and their request/response formats in the NILFIS API. Please refer to the specific endpoints for more details on their usage and available operations.
