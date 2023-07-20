@@ -6,6 +6,7 @@ import com.nilfis.nilfis.api.models.responses.SeriesResponse;
 import com.nilfis.nilfis.infrastructure.abstract_service.ISeriesPagedService;
 import com.nilfis.nilfis.infrastructure.abstract_service.ISeriesService;
 import com.nilfis.nilfis.util.enums.SortType;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -18,6 +19,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping(path = "series")
 @AllArgsConstructor
+@Tag(name = "Series")
 public class SeriesController {
 
     private final ISeriesService seriesService;

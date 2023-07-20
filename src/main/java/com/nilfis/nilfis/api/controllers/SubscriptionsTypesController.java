@@ -3,6 +3,7 @@ package com.nilfis.nilfis.api.controllers;
 import com.nilfis.nilfis.api.models.requests.SubscriptionsTypesRequest;
 import com.nilfis.nilfis.api.models.responses.SubscriptionsTypesResponse;
 import com.nilfis.nilfis.infrastructure.abstract_service.ISubscriptionsTypesService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping(path = "sbsTypes")
 @AllArgsConstructor
+@Tag(name = "Subscriptions Types")
 public class SubscriptionsTypesController {
 
     private final ISubscriptionsTypesService subscriptionsTypesService;

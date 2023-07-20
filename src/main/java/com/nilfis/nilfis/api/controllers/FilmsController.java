@@ -6,6 +6,7 @@ import com.nilfis.nilfis.api.models.responses.FilmsResponse;
 import com.nilfis.nilfis.infrastructure.abstract_service.IFilmsPagedService;
 import com.nilfis.nilfis.infrastructure.abstract_service.IFilmsService;
 import com.nilfis.nilfis.util.enums.SortType;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -18,6 +19,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping(path = "films")
 @AllArgsConstructor
+@Tag(name = "Films")
 public class FilmsController {
 
     private IFilmsService filmsService;

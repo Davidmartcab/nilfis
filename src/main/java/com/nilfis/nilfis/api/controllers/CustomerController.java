@@ -3,6 +3,8 @@ package com.nilfis.nilfis.api.controllers;
 import com.nilfis.nilfis.api.models.requests.CustomerRequest;
 import com.nilfis.nilfis.api.models.responses.CustomersResponse;
 import com.nilfis.nilfis.infrastructure.abstract_service.ICustomersService;
+import com.nilfis.nilfis.util.enums.Tables;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping(path = "customers")
 @AllArgsConstructor
+@Tag(name = "Customers")
 public class CustomerController {
 
     private final ICustomersService customersService;

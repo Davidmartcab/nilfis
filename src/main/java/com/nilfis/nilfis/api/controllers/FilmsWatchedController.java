@@ -5,6 +5,7 @@ import com.nilfis.nilfis.api.models.responses.CountFilmsResponse;
 import com.nilfis.nilfis.api.models.responses.FilmsByCustomerResponse;
 import com.nilfis.nilfis.api.models.responses.FilmsWatchedResponse;
 import com.nilfis.nilfis.infrastructure.abstract_service.IFilmsWatchedService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping(path = "filmsW")
 @AllArgsConstructor
+@Tag(name = "Films Watched")
 public class FilmsWatchedController {
 
     private IFilmsWatchedService filmsWatchedService;
