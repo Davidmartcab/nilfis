@@ -5,8 +5,7 @@ import com.nilfis.nilfis.api.models.responses.FilmsResponse;
 import com.nilfis.nilfis.domain.entities.FilmsEntity;
 import com.nilfis.nilfis.domain.repositories.FilmsRepository;
 import com.nilfis.nilfis.infrastructure.abstract_service.IFilmsPagedService;
-import com.nilfis.nilfis.util.SortType;
-import io.micrometer.observation.Observation;
+import com.nilfis.nilfis.util.enums.SortType;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
@@ -51,20 +50,16 @@ public class FilmsPagedService implements IFilmsPagedService {
         var films = this.filmsRepository.findAll();
         var response = new HashSet<FilmsResponse>();
         films.forEach(film -> {
-            boolean valid = true;
             if(Objects.nonNull(request.getType_name())) {
                 if(request.getType_name().equals("null")) {
                     if(Objects.nonNull(film.getSubscription_type_required())) {
-                        valid = false;
                         return;
                     }
                 }else {
                     if(Objects.isNull(film.getSubscription_type_required())) {
-                        valid = false;
                         return;
                     }else {
                         if(!film.getSubscription_type_required().toLowerCase().contains(request.getType_name().toLowerCase())) {
-                            valid = false;
                             return;
                         }
                     }
@@ -73,28 +68,24 @@ public class FilmsPagedService implements IFilmsPagedService {
 
             if (Objects.nonNull(request.getMinRate())) {
                 if (film.getRate() < request.getMinRate()) {
-                    valid = false;
                     return;
                 }
             }
 
             if (Objects.nonNull(request.getMaxRate())) {
                 if (film.getRate() > request.getMaxRate()) {
-                    valid = false;
                     return;
                 }
             }
 
             if (Objects.nonNull(request.getTitleStart())) {
                 if (!film.getTitle().toLowerCase().startsWith(request.getTitleStart().toLowerCase())) {
-                    valid = false;
                     return;
                 }
             }
 
             if (Objects.nonNull(request.getDirectorStart())) {
                 if (!film.getDirector().toLowerCase().startsWith(request.getDirectorStart().toLowerCase())) {
-                    valid = false;
                     return;
                 }
             }
@@ -103,7 +94,6 @@ public class FilmsPagedService implements IFilmsPagedService {
                 try {
                     int yearStart = Integer.parseInt(request.getYearStart());
                     if (Integer.parseInt(film.getYear()) < yearStart) {
-                        valid = false;
                         return;
                     }
                 } catch (Exception ignored) {}
@@ -113,15 +103,12 @@ public class FilmsPagedService implements IFilmsPagedService {
                 try {
                     int yearEnd = Integer.parseInt(request.getYearEnd());
                     if (Integer.parseInt(film.getYear()) > yearEnd) {
-                        valid = false;
                         return;
                     }
                 } catch (Exception ignored) {}
             }
 
-            if (valid) {
-                response.add(this.entityToResponse(film));
-            }
+            response.add(this.entityToResponse(film));
 
         });
 

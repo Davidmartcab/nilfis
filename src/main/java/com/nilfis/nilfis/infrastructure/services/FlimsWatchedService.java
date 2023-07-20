@@ -9,6 +9,9 @@ import com.nilfis.nilfis.domain.repositories.CustomersRepository;
 import com.nilfis.nilfis.domain.repositories.FilmsRepository;
 import com.nilfis.nilfis.domain.repositories.FilmsWatchedRepository;
 import com.nilfis.nilfis.infrastructure.abstract_service.IFilmsWatchedService;
+import com.nilfis.nilfis.util.enums.Tables;
+import com.nilfis.nilfis.util.exceptions.IdNotFoundException;
+import com.nilfis.nilfis.util.exceptions.NotVerifiedCustomer;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -30,14 +33,13 @@ public class FlimsWatchedService implements IFilmsWatchedService {
     private final FilmsRepository filmsRepository;
     @Override
     public FilmsWatchedResponse create(FilmsWatchedRequest request) {
-        var customer = this.customersRepository.findById(request.getCustomer_id()).orElseThrow();
-//        if(!customer.isVerified()){return new FilmsWatchedResponse();}
+        var customer = this.customersRepository.findById(request.getCustomer_id()).orElseThrow(() -> new IdNotFoundException(Tables.customers.name()));
+        if(!customer.isVerified()){throw new NotVerifiedCustomer();}
         var film = new FilmsEntity();
         try {
             film = this.filmsRepository.getReferenceById(request.getFilm_id());
         } catch (Exception e) {
-            log.info("Error: film not found");
-            return null;
+            throw new IdNotFoundException(Tables.films.name());
         }
         var filmWToPersist = FilmsWatchedEntity.builder()
                 .customer(customer)
@@ -50,7 +52,7 @@ public class FlimsWatchedService implements IFilmsWatchedService {
 
     @Override
     public FilmsWatchedResponse read(UUID uuid) {
-        var filmWFromDB = this.filmsWatchedRepository.findById(uuid).orElseThrow();
+        var filmWFromDB = this.filmsWatchedRepository.findById(uuid).orElseThrow(() -> new IdNotFoundException(Tables.films_watched.name()));
         return this.entityToResponse(filmWFromDB);
     }
 
@@ -67,7 +69,7 @@ public class FlimsWatchedService implements IFilmsWatchedService {
 
     @Override
     public void delete(UUID uuid) {
-        var filmWToDelete = this.filmsWatchedRepository.findById(uuid).orElseThrow();
+        var filmWToDelete = this.filmsWatchedRepository.findById(uuid).orElseThrow(() -> new IdNotFoundException(Tables.films_watched.name()));
         this.filmsWatchedRepository.delete(filmWToDelete);
     }
 
@@ -79,8 +81,7 @@ public class FlimsWatchedService implements IFilmsWatchedService {
         try {
             film = this.filmsRepository.getReferenceById(uuid);
         } catch (Exception e) {
-            log.info("Error: film not found");
-            return null;
+            throw new IdNotFoundException(Tables.films.name());
         }
         if (set != null && set.length >= 1) {
             Long count = (Long) set[0];
@@ -95,7 +96,7 @@ public class FlimsWatchedService implements IFilmsWatchedService {
     @Override
     public FilmsByCustomerResponse readByCustomer(UUID uuid) {
         FilmsByCustomerResponse response = new FilmsByCustomerResponse();
-        var customer = this.customersRepository.findById(uuid).orElseThrow();
+        var customer = this.customersRepository.findById(uuid).orElseThrow(() -> new IdNotFoundException(Tables.customers.name()));
         response.setCustomer(this.entityToResponse(customer));
 
         var filmWFromDB = this.filmsWatchedRepository.findFilmsWatchedByCustomer(uuid);

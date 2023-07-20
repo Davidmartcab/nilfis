@@ -1,10 +1,8 @@
 package com.nilfis.nilfis.infrastructure.abstract_service;
 
 import com.nilfis.nilfis.api.models.requests.FilterRequest;
-import com.nilfis.nilfis.util.SortType;
+import com.nilfis.nilfis.util.enums.SortType;
 import org.springframework.data.domain.Page;
-
-import java.util.HashSet;
 
 public interface CatalogService<R> {
     Page<R> readAll(Integer page, Integer size, SortType sortType);

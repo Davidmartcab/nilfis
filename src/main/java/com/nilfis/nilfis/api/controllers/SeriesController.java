@@ -2,17 +2,16 @@ package com.nilfis.nilfis.api.controllers;
 
 import com.nilfis.nilfis.api.models.requests.FilterRequest;
 import com.nilfis.nilfis.api.models.requests.SeriesRequest;
-import com.nilfis.nilfis.api.models.responses.FilmsResponse;
 import com.nilfis.nilfis.api.models.responses.SeriesResponse;
 import com.nilfis.nilfis.infrastructure.abstract_service.ISeriesPagedService;
 import com.nilfis.nilfis.infrastructure.abstract_service.ISeriesService;
-import com.nilfis.nilfis.util.SortType;
+import com.nilfis.nilfis.util.enums.SortType;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashSet;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -25,7 +24,7 @@ public class SeriesController {
     private final ISeriesPagedService seriesPagedService;
 
     @PostMapping(path = "/new")
-    public ResponseEntity<SeriesResponse> post(@RequestBody SeriesRequest request) {
+    public ResponseEntity<SeriesResponse> post(@Valid @RequestBody SeriesRequest request) {
         return ResponseEntity.ok(seriesService.create(request));
     }
 

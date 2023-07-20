@@ -5,6 +5,8 @@ import com.nilfis.nilfis.api.models.responses.SeriesResponse;
 import com.nilfis.nilfis.domain.entities.SeriesEntity;
 import com.nilfis.nilfis.domain.repositories.SeriesRepository;
 import com.nilfis.nilfis.infrastructure.abstract_service.ISeriesService;
+import com.nilfis.nilfis.util.enums.Tables;
+import com.nilfis.nilfis.util.exceptions.IdNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -38,7 +40,7 @@ public class SeriesService implements ISeriesService {
 
     @Override
     public SeriesResponse read(UUID uuid) {
-        var seriesFromDB = this.seriesRepository.findById(uuid).orElseThrow();
+        var seriesFromDB = this.seriesRepository.findById(uuid).orElseThrow(() -> new IdNotFoundException(Tables.series.name()));
         return this.entityToResponse(seriesFromDB);
     }
 
@@ -54,7 +56,7 @@ public class SeriesService implements ISeriesService {
 
     @Override
     public void delete(UUID uuid) {
-        var seriesToDelete = this.seriesRepository.findById(uuid).orElseThrow();
+        var seriesToDelete = this.seriesRepository.findById(uuid).orElseThrow(() -> new IdNotFoundException(Tables.series.name()));
         this.seriesRepository.delete(seriesToDelete);
     }
 
@@ -64,73 +66,4 @@ public class SeriesService implements ISeriesService {
         return response;
     }
 
-    @Override
-    public HashSet<SeriesResponse> readBySubscriptionsType(String typeName) {
-        var seriesFromDB = this.seriesRepository.findBySubscriptionName(typeName);
-        var seriesForResponse = new HashSet<SeriesResponse>();
-        for (SeriesEntity series : seriesFromDB) {
-            seriesForResponse.add(this.entityToResponse(series));
-        }
-        return seriesForResponse;
-    }
-
-    @Override
-    public HashSet<SeriesResponse> readByRateGreater(int rate) {
-        var seriesFromDB = this.seriesRepository.findByRateGreaterThan(rate);
-        var seriesForResponse = new HashSet<SeriesResponse>();
-        for (SeriesEntity series : seriesFromDB) {
-            seriesForResponse.add(this.entityToResponse(series));
-        }
-        return seriesForResponse;
-    }
-
-    @Override
-    public HashSet<SeriesResponse> readByRateLower(int rate) {
-        var seriesFromDB = this.seriesRepository.findByRateLessThan(rate);
-        var seriesForResponse = new HashSet<SeriesResponse>();
-        for (SeriesEntity series : seriesFromDB) {
-            seriesForResponse.add(this.entityToResponse(series));
-        }
-        return seriesForResponse;
-    }
-
-    @Override
-    public HashSet<SeriesResponse> readByRateBetween(int minRate, int maxRate) {
-        var seriesFromDB = this.seriesRepository.findByRateBetween(minRate, maxRate);
-        var seriesForResponse = new HashSet<SeriesResponse>();
-        for (SeriesEntity series : seriesFromDB) {
-            seriesForResponse.add(this.entityToResponse(series));
-        }
-        return seriesForResponse;
-    }
-
-    @Override
-    public HashSet<SeriesResponse> readByTitleStart(String titleStart) {
-        var seriesFromDB = this.seriesRepository.findByTitleStartingWith(titleStart);
-        var seriesForResponse = new HashSet<SeriesResponse>();
-        for (SeriesEntity series : seriesFromDB) {
-            seriesForResponse.add(this.entityToResponse(series));
-        }
-        return seriesForResponse;
-    }
-
-    @Override
-    public HashSet<SeriesResponse> readByDirectorStart(String directorStart) {
-        var seriesFromDB = this.seriesRepository.findByDirectorStartingWith(directorStart);
-        var seriesForResponse = new HashSet<SeriesResponse>();
-        for (SeriesEntity series : seriesFromDB) {
-            seriesForResponse.add(this.entityToResponse(series));
-        }
-        return seriesForResponse;
-    }
-
-    @Override
-    public HashSet<SeriesResponse> readByYear(String startYear, String endYear) {
-        var seriesFromDB = this.seriesRepository.findByYearInRange(startYear, endYear);
-        var seriesForResponse = new HashSet<SeriesResponse>();
-        for (SeriesEntity series : seriesFromDB) {
-            seriesForResponse.add(this.entityToResponse(series));
-        }
-        return seriesForResponse;
-    }
 }

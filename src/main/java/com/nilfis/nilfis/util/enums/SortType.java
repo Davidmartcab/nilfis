@@ -1,4 +1,4 @@
-package com.nilfis.nilfis.util;
+package com.nilfis.nilfis.util.enums;
 
 public enum SortType {
     LOWER,

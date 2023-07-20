@@ -5,6 +5,7 @@ import com.nilfis.nilfis.api.models.responses.CountFilmsResponse;
 import com.nilfis.nilfis.api.models.responses.FilmsByCustomerResponse;
 import com.nilfis.nilfis.api.models.responses.FilmsWatchedResponse;
 import com.nilfis.nilfis.infrastructure.abstract_service.IFilmsWatchedService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ public class FilmsWatchedController {
 
     private IFilmsWatchedService filmsWatchedService;
     @PostMapping
-    public ResponseEntity<FilmsWatchedResponse> post(@RequestBody FilmsWatchedRequest request) {
+    public ResponseEntity<FilmsWatchedResponse> post(@Valid @RequestBody FilmsWatchedRequest request) {
         return ResponseEntity.ok(filmsWatchedService.create(request));
     }
 

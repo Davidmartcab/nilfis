@@ -5,6 +5,7 @@ import com.nilfis.nilfis.api.models.responses.CountSeriesResponse;
 import com.nilfis.nilfis.api.models.responses.SeriesByCustomerResponse;
 import com.nilfis.nilfis.api.models.responses.SeriesWatchedResponse;
 import com.nilfis.nilfis.infrastructure.abstract_service.ISeriesWatchedService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,7 @@ public class SeriesWatchedController {
     private ISeriesWatchedService seriesWatchedService;
 
     @PostMapping
-    public ResponseEntity<SeriesWatchedResponse> post(@RequestBody SeriesWatchedRequest request) {
+    public ResponseEntity<SeriesWatchedResponse> post(@Valid @RequestBody SeriesWatchedRequest request) {
         return ResponseEntity.ok(seriesWatchedService.create(request));
     }
 

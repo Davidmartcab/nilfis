@@ -2,10 +2,8 @@ package com.nilfis.nilfis.infrastructure.services;
 
 import com.nilfis.nilfis.api.models.requests.SubscriptionsRequest;
 import com.nilfis.nilfis.api.models.responses.CustomersResponse;
-import com.nilfis.nilfis.api.models.responses.SeriesResponse;
 import com.nilfis.nilfis.api.models.responses.SubscriptionsResponse;
 import com.nilfis.nilfis.api.models.responses.SubscriptionsTypesResponse;
-import com.nilfis.nilfis.domain.entities.SeriesEntity;
 import com.nilfis.nilfis.domain.entities.SubscriptionsEntity;
 import com.nilfis.nilfis.domain.entities.SubscriptionsTypesEntity;
 import com.nilfis.nilfis.domain.repositories.CustomersRepository;
@@ -13,6 +11,8 @@ import com.nilfis.nilfis.domain.repositories.SubscriptionsRepository;
 import com.nilfis.nilfis.domain.repositories.SubscriptionsTypesRepository;
 import com.nilfis.nilfis.infrastructure.abstract_service.ISubscriptionsService;
 import com.nilfis.nilfis.util.DurationInterval;
+import com.nilfis.nilfis.util.enums.Tables;
+import com.nilfis.nilfis.util.exceptions.IdNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -35,14 +35,13 @@ public class SubscriptionsService implements ISubscriptionsService {
 
     @Override
     public SubscriptionsResponse create(SubscriptionsRequest request) {
-        var customer = this.customersRepository.findById(request.getCustomer_id()).orElseThrow();
+        var customer = this.customersRepository.findById(request.getCustomer_id()).orElseThrow(() -> new IdNotFoundException(Tables.customers.name()));
 
         var typeFound = new SubscriptionsTypesEntity();
         try {
             typeFound = this.subscriptionsTypesRepository.findBySubscriptionName(request.getSubscriptionsType());
         } catch (Exception e) {
-            log.info("Error: Subscription not found");
-            return null;
+            throw new IdNotFoundException(Tables.subscriptions_types.name());
         }
 
         DurationInterval transformer = new DurationInterval();
@@ -61,7 +60,7 @@ public class SubscriptionsService implements ISubscriptionsService {
 
     @Override
     public SubscriptionsResponse read(UUID uuid) {
-        var subscriptionsFromDB = this.subscriptionsRepository.findById(uuid).orElseThrow();
+        var subscriptionsFromDB = this.subscriptionsRepository.findById(uuid).orElseThrow(() -> new IdNotFoundException(Tables.subscriptions.name()));
         return this.entityToResponse(subscriptionsFromDB);
     }
 
@@ -78,7 +77,7 @@ public class SubscriptionsService implements ISubscriptionsService {
 
     @Override
     public void delete(UUID uuid) {
-        var subscriptionToDelete = this.subscriptionsRepository.findById(uuid).orElseThrow();
+        var subscriptionToDelete = this.subscriptionsRepository.findById(uuid).orElseThrow(() -> new IdNotFoundException(Tables.subscriptions.name()));
         this.subscriptionsRepository.delete(subscriptionToDelete);
     }
 

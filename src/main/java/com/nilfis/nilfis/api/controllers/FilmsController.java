@@ -5,13 +5,13 @@ import com.nilfis.nilfis.api.models.requests.FilterRequest;
 import com.nilfis.nilfis.api.models.responses.FilmsResponse;
 import com.nilfis.nilfis.infrastructure.abstract_service.IFilmsPagedService;
 import com.nilfis.nilfis.infrastructure.abstract_service.IFilmsService;
-import com.nilfis.nilfis.util.SortType;
+import com.nilfis.nilfis.util.enums.SortType;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashSet;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -24,7 +24,7 @@ public class FilmsController {
     private IFilmsPagedService filmsPagedService;
 
     @PostMapping(path = "/new")
-    public ResponseEntity<FilmsResponse> post(@RequestBody FilmsRequest request) {
+    public ResponseEntity<FilmsResponse> post(@Valid @RequestBody FilmsRequest request) {
         return ResponseEntity.ok(filmsService.create(request));
     }
 

@@ -3,6 +3,7 @@ package com.nilfis.nilfis.api.controllers;
 import com.nilfis.nilfis.api.models.requests.SubscriptionsRequest;
 import com.nilfis.nilfis.api.models.responses.SubscriptionsResponse;
 import com.nilfis.nilfis.infrastructure.abstract_service.ISubscriptionsService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,7 @@ public class SubscriptionsController {
     private final ISubscriptionsService subscriptionsService;
 
     @PostMapping
-    public ResponseEntity<SubscriptionsResponse> post(@RequestBody SubscriptionsRequest request) {
+    public ResponseEntity<SubscriptionsResponse> post(@Valid @RequestBody SubscriptionsRequest request) {
         return ResponseEntity.ok(subscriptionsService.create(request));
     }
 

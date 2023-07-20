@@ -5,6 +5,8 @@ import com.nilfis.nilfis.api.models.responses.CustomersResponse;
 import com.nilfis.nilfis.domain.entities.CustomersEntity;
 import com.nilfis.nilfis.domain.repositories.CustomersRepository;
 import com.nilfis.nilfis.infrastructure.abstract_service.ICustomersService;
+import com.nilfis.nilfis.util.enums.Tables;
+import com.nilfis.nilfis.util.exceptions.IdNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -36,7 +38,7 @@ public class CustomersService implements ICustomersService {
 
     @Override
     public CustomersResponse read(UUID uuid) {
-        var customerFromDB = this.customersRepository.findById(uuid).orElseThrow();
+        var customerFromDB = this.customersRepository.findById(uuid).orElseThrow(() -> new IdNotFoundException(Tables.customers.name()));
         return this.entityToResponse(customerFromDB);
     }
 
@@ -57,14 +59,14 @@ public class CustomersService implements ICustomersService {
         try {
             customersResponse = this.entityToResponse(this.customersRepository.findByEmail(email));
         } catch (Exception e) {
-            log.info("Error: customer not found");
+            throw new IdNotFoundException("customers");
         }
         return customersResponse;
     }
 
     @Override
     public void verifyCustomer(UUID uuid) {
-        var customerFromDB = this.customersRepository.findById(uuid).orElseThrow();
+        var customerFromDB = this.customersRepository.findById(uuid).orElseThrow(() -> new IdNotFoundException(Tables.customers.name()));
         if(!customerFromDB.isVerified()){
             customerFromDB.setVerified(true);
             this.customersRepository.save(customerFromDB);
@@ -73,7 +75,7 @@ public class CustomersService implements ICustomersService {
 
     @Override
     public void delete(UUID uuid) {
-        var customerToDelete = this.customersRepository.findById(uuid).orElseThrow();
+        var customerToDelete = this.customersRepository.findById(uuid).orElseThrow(() -> new IdNotFoundException(Tables.customers.name()));
         this.customersRepository.delete(customerToDelete);
     }
 

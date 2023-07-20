@@ -3,6 +3,7 @@ package com.nilfis.nilfis.api.controllers;
 import com.nilfis.nilfis.api.models.requests.CustomerRequest;
 import com.nilfis.nilfis.api.models.responses.CustomersResponse;
 import com.nilfis.nilfis.infrastructure.abstract_service.ICustomersService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,7 @@ public class CustomerController {
     private final ICustomersService customersService;
 
     @PostMapping
-    public ResponseEntity<CustomersResponse> post(@RequestBody CustomerRequest request) {
+    public ResponseEntity<CustomersResponse> post(@Valid @RequestBody CustomerRequest request) {
         return ResponseEntity.ok(customersService.create(request));
     }
 

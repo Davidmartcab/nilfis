@@ -5,6 +5,9 @@ import com.nilfis.nilfis.api.models.responses.*;
 import com.nilfis.nilfis.domain.entities.*;
 import com.nilfis.nilfis.domain.repositories.*;
 import com.nilfis.nilfis.infrastructure.abstract_service.ISeriesWatchedService;
+import com.nilfis.nilfis.util.enums.Tables;
+import com.nilfis.nilfis.util.exceptions.IdNotFoundException;
+import com.nilfis.nilfis.util.exceptions.NotVerifiedCustomer;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -27,14 +30,13 @@ public class SeriesWatchedService implements ISeriesWatchedService {
 
     @Override
     public SeriesWatchedResponse create(SeriesWatchedRequest request) {
-        var customer = this.customersRepository.findById(request.getCustomer_id()).orElseThrow();
-//        if(!customer.isVerified()) {return new SeriesWatchedResponse();}
+        var customer = this.customersRepository.findById(request.getCustomer_id()).orElseThrow(() -> new IdNotFoundException(Tables.customers.name()));
+        if(!customer.isVerified()){throw new NotVerifiedCustomer();}
         var serie = new SeriesEntity();
         try {
             serie = this.seriesRepository.getReferenceById(request.getSerie_id());
         } catch (Exception e) {
-            log.info("Error: film not found");
-            return null;
+            throw new IdNotFoundException(Tables.series.name());
         }
         var filmWToPersist = SeriesWatchedEntity.builder()
                 .customer(customer)
@@ -64,7 +66,7 @@ public class SeriesWatchedService implements ISeriesWatchedService {
 
     @Override
     public void delete(UUID uuid) {
-        var serieWToDelete = this.seriesWatchedRepository.findById(uuid).orElseThrow();
+        var serieWToDelete = this.seriesWatchedRepository.findById(uuid).orElseThrow(() -> new IdNotFoundException(Tables.series_watched.name()));
         this.seriesWatchedRepository.delete(serieWToDelete);
     }
 
@@ -77,8 +79,7 @@ public class SeriesWatchedService implements ISeriesWatchedService {
         try {
             series = this.seriesRepository.getReferenceById(uuid);
         } catch (Exception e) {
-            log.info("Error: series not found");
-            return null;
+            throw new IdNotFoundException(Tables.series.name());
         }
 
         if (set != null && set.length >= 1) {
@@ -96,7 +97,7 @@ public class SeriesWatchedService implements ISeriesWatchedService {
     @Override
     public SeriesByCustomerResponse readByCustomer(UUID uuid) {
         SeriesByCustomerResponse response = new SeriesByCustomerResponse();
-        var customer = this.customersRepository.findById(uuid).orElseThrow();
+        var customer = this.customersRepository.findById(uuid).orElseThrow(() -> new IdNotFoundException(Tables.customers.name()));
         response.setCustomer(this.entityToResponse(customer));
 
         var seriesWFromDB = this.seriesWatchedRepository.findSeriesWatchedByCustomer(uuid);

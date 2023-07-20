@@ -5,6 +5,8 @@ import com.nilfis.nilfis.api.models.responses.FilmsResponse;
 import com.nilfis.nilfis.domain.entities.FilmsEntity;
 import com.nilfis.nilfis.domain.repositories.FilmsRepository;
 import com.nilfis.nilfis.infrastructure.abstract_service.IFilmsService;
+import com.nilfis.nilfis.util.enums.Tables;
+import com.nilfis.nilfis.util.exceptions.IdNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -38,7 +40,7 @@ public class FilmsService implements IFilmsService {
 
     @Override
     public FilmsResponse read(UUID uuid) {
-        var filmFromDB = this.filmsRepository.findById(uuid).orElseThrow();
+        var filmFromDB = this.filmsRepository.findById(uuid).orElseThrow(() -> new IdNotFoundException(Tables.films.name()));
         return this.entityToResponse(filmFromDB);
     }
 
@@ -55,7 +57,7 @@ public class FilmsService implements IFilmsService {
 
     @Override
     public void delete(UUID uuid) {
-        var filmToDelete = this.filmsRepository.findById(uuid).orElseThrow();
+        var filmToDelete = this.filmsRepository.findById(uuid).orElseThrow(() -> new IdNotFoundException(Tables.films.name()));
         this.filmsRepository.delete(filmToDelete);
     }
 
@@ -65,80 +67,4 @@ public class FilmsService implements IFilmsService {
         return response;
     }
 
-    @Override
-    public HashSet<FilmsResponse> readBySubscriptionsType(String typeName) {
-        var filmFromDB = this.filmsRepository.findBySubscriptionName(typeName);
-        var filmForResponse = new HashSet<FilmsResponse>();
-        for (FilmsEntity film : filmFromDB) {
-            filmForResponse.add(this.entityToResponse(film));
-        }
-
-        return filmForResponse;
-    }
-
-    @Override
-    public HashSet<FilmsResponse> readByRateGreater(int rate) {
-        var filmFromDB = this.filmsRepository.findByRateGreaterThan(rate);
-        var filmForResponse = new HashSet<FilmsResponse>();
-        for (FilmsEntity film : filmFromDB) {
-            filmForResponse.add(this.entityToResponse(film));
-        }
-
-        return filmForResponse;
-    }
-
-    @Override
-    public HashSet<FilmsResponse> readByRateLower(int rate) {
-        var filmFromDB = this.filmsRepository.findByRateLessThan(rate);
-        var filmForResponse = new HashSet<FilmsResponse>();
-        for (FilmsEntity film : filmFromDB) {
-            filmForResponse.add(this.entityToResponse(film));
-        }
-
-        return filmForResponse;
-    }
-
-    @Override
-    public HashSet<FilmsResponse> readByRateBetween(int minRate, int maxRate) {
-        var filmFromDB = this.filmsRepository.findByRateBetween(minRate, maxRate);
-        var filmForResponse = new HashSet<FilmsResponse>();
-        for (FilmsEntity film : filmFromDB) {
-            filmForResponse.add(this.entityToResponse(film));
-        }
-
-        return filmForResponse;
-    }
-
-    @Override
-    public HashSet<FilmsResponse> readByTitleStart(String titleStart) {
-        var filmFromDB = this.filmsRepository.findByTitleStartingWith(titleStart);
-        var filmForResponse = new HashSet<FilmsResponse>();
-        for (FilmsEntity film : filmFromDB) {
-            filmForResponse.add(this.entityToResponse(film));
-        }
-
-        return filmForResponse;
-    }
-
-    @Override
-    public HashSet<FilmsResponse> readByDirectorStart(String directorStart) {
-        var filmFromDB = this.filmsRepository.findByDirectorStartingWith(directorStart);
-        var filmForResponse = new HashSet<FilmsResponse>();
-        for (FilmsEntity film : filmFromDB) {
-            filmForResponse.add(this.entityToResponse(film));
-        }
-
-        return filmForResponse;
-    }
-
-    @Override
-    public HashSet<FilmsResponse> readByYear(String startYear, String endYear) {
-        var filmFromDB = this.filmsRepository.findByYearInRange(startYear, endYear);
-        var filmForResponse = new HashSet<FilmsResponse>();
-        for (FilmsEntity film : filmFromDB) {
-            filmForResponse.add(this.entityToResponse(film));
-        }
-
-        return filmForResponse;
-    }
 }

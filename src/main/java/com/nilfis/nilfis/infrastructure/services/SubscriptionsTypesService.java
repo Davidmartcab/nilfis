@@ -2,10 +2,11 @@ package com.nilfis.nilfis.infrastructure.services;
 
 import com.nilfis.nilfis.api.models.requests.SubscriptionsTypesRequest;
 import com.nilfis.nilfis.api.models.responses.SubscriptionsTypesResponse;
-import com.nilfis.nilfis.domain.entities.CustomersEntity;
 import com.nilfis.nilfis.domain.entities.SubscriptionsTypesEntity;
 import com.nilfis.nilfis.domain.repositories.SubscriptionsTypesRepository;
 import com.nilfis.nilfis.infrastructure.abstract_service.ISubscriptionsTypesService;
+import com.nilfis.nilfis.util.enums.Tables;
+import com.nilfis.nilfis.util.exceptions.IdNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -35,13 +36,13 @@ public class SubscriptionsTypesService implements ISubscriptionsTypesService {
 
     @Override
     public SubscriptionsTypesResponse read(UUID uuid) {
-        var sbsTypesFromDB = this.subscriptionsTypesRepository.findById(uuid).orElseThrow();
+        var sbsTypesFromDB = this.subscriptionsTypesRepository.findById(uuid).orElseThrow(() -> new IdNotFoundException(Tables.subscriptions_types.name()));
         return this.entityToResponse(sbsTypesFromDB);
     }
 
     @Override
     public void delete(UUID uuid) {
-        var customerToDelete = this.subscriptionsTypesRepository.findById(uuid).orElseThrow();
+        var customerToDelete = this.subscriptionsTypesRepository.findById(uuid).orElseThrow(() -> new IdNotFoundException(Tables.subscriptions_types.name()));
         this.subscriptionsTypesRepository.delete(customerToDelete);
     }
 
