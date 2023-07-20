@@ -6,6 +6,7 @@ import com.nilfis.nilfis.domain.entities.CustomersEntity;
 import com.nilfis.nilfis.domain.repositories.CustomersRepository;
 import com.nilfis.nilfis.infrastructure.abstract_service.ICustomersService;
 import com.nilfis.nilfis.util.enums.Tables;
+import com.nilfis.nilfis.util.exceptions.EmailJustExist;
 import com.nilfis.nilfis.util.exceptions.IdNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +27,10 @@ public class CustomersService implements ICustomersService {
 
     @Override
     public CustomersResponse create(CustomerRequest request) {
+        var customerExist = this.customersRepository.findByEmail(request.getEmail());
+        if (customerExist != null) {
+            throw new EmailJustExist();
+        }
         var customerToPersist = CustomersEntity.builder()
                 .name(request.getName().toLowerCase())
                 .email(request.getEmail().toLowerCase())
