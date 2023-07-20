@@ -15,10 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 
 @Transactional
@@ -112,13 +109,15 @@ public class FilmsPagedService implements IFilmsPagedService {
 
         });
 
-
-
         List<FilmsResponse> responseList = new ArrayList<>(response);
         int start = (int) pageRequest.getOffset();
         int end = Math.min((start + pageRequest.getPageSize()), responseList.size());
         end = Math.max(start, end);
-        return new PageImpl<>(responseList.subList(start, end), pageRequest, responseList.size());
+        try {
+            return new PageImpl<>(responseList.subList(start, end), pageRequest, responseList.size());
+        } catch (Exception e) {
+            return new PageImpl<>(Collections.emptyList(), pageRequest, 0);
+        }
     }
 
     private FilmsResponse entityToResponse(FilmsEntity entity) {
