@@ -5,9 +5,12 @@ import com.nilfis.nilfis.api.models.responses.FilmsResponse;
 import com.nilfis.nilfis.domain.entities.FilmsEntity;
 import com.nilfis.nilfis.domain.repositories.FilmsRepository;
 import com.nilfis.nilfis.infrastructure.abstract_service.IFilmsPagedService;
+import com.nilfis.nilfis.util.enums.CacheConstants;
 import com.nilfis.nilfis.util.enums.SortType;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -21,10 +24,12 @@ import java.util.*;
 @Transactional
 @Service
 @AllArgsConstructor
+@CacheConfig(cacheNames = CacheConstants.FILMS_CACHE_NAME)
 public class FilmsPagedService implements IFilmsPagedService {
 
     private final FilmsRepository filmsRepository;
     @Override
+    @Cacheable(key = "{ #page, #size, #sortType }")
     public Page<FilmsResponse> readAll(Integer page, Integer size, SortType sortType) {
         PageRequest pageRequest = null;
         switch (sortType) {
@@ -36,6 +41,7 @@ public class FilmsPagedService implements IFilmsPagedService {
     }
 
     @Override
+    @Cacheable(key = "{ #page, #size, #sortType, #request }")
     public Page<FilmsResponse> readAllFiltered(Integer page, Integer size, SortType sortType, FilterRequest request) {
         PageRequest pageRequest = null;
         switch (sortType) {

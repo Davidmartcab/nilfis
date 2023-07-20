@@ -5,9 +5,12 @@ import com.nilfis.nilfis.api.models.responses.SeriesResponse;
 import com.nilfis.nilfis.domain.entities.SeriesEntity;
 import com.nilfis.nilfis.domain.repositories.SeriesRepository;
 import com.nilfis.nilfis.infrastructure.abstract_service.ISeriesPagedService;
+import com.nilfis.nilfis.util.enums.CacheConstants;
 import com.nilfis.nilfis.util.enums.SortType;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -20,10 +23,12 @@ import java.util.*;
 @Transactional
 @Service
 @AllArgsConstructor
+@CacheConfig(cacheNames = CacheConstants.SERIES_CACHE_NAME)
 public class SeriesPagedService implements ISeriesPagedService {
 
     private final SeriesRepository seriesRepository;
     @Override
+    @Cacheable(key = "{ #page, #size, #sortType }")
     public Page<SeriesResponse> readAll(Integer page, Integer size, SortType sortType) {
         PageRequest pageRequest = null;
         switch (sortType) {
@@ -35,6 +40,7 @@ public class SeriesPagedService implements ISeriesPagedService {
     }
 
     @Override
+    @Cacheable(key = "{ #page, #size, #sortType, #request }")
     public Page<SeriesResponse> readAllFiltered(Integer page, Integer size, SortType sortType, FilterRequest request) {
         PageRequest pageRequest = null;
         switch (sortType) {

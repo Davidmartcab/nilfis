@@ -5,11 +5,14 @@ import com.nilfis.nilfis.api.models.responses.FilmsResponse;
 import com.nilfis.nilfis.domain.entities.FilmsEntity;
 import com.nilfis.nilfis.domain.repositories.FilmsRepository;
 import com.nilfis.nilfis.infrastructure.abstract_service.IFilmsService;
+import com.nilfis.nilfis.util.enums.CacheConstants;
 import com.nilfis.nilfis.util.enums.Tables;
 import com.nilfis.nilfis.util.exceptions.IdNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,10 +23,12 @@ import java.util.UUID;
 @Service
 @Slf4j
 @AllArgsConstructor
+@CacheConfig(cacheNames = CacheConstants.FILMS_CACHE_NAME)
 public class FilmsService implements IFilmsService {
 
     private final FilmsRepository filmsRepository;
     @Override
+    @CacheEvict(allEntries = true)
     public FilmsResponse create(FilmsRequest request) {
         var filmToPersist = FilmsEntity.builder()
                 .title(request.getTitle().toLowerCase())
@@ -46,16 +51,11 @@ public class FilmsService implements IFilmsService {
 
     @Override
     public HashSet<FilmsResponse> read() {
-        var filmFromDB = this.filmsRepository.findAll();
-        var filmForResponse = new HashSet<FilmsResponse>();
-        for (FilmsEntity film : filmFromDB) {
-            filmForResponse.add(this.entityToResponse(film));
-        }
-
-        return filmForResponse;
+        return null;
     }
 
     @Override
+    @CacheEvict(allEntries = true)
     public void delete(UUID uuid) {
         var filmToDelete = this.filmsRepository.findById(uuid).orElseThrow(() -> new IdNotFoundException(Tables.films.name()));
         this.filmsRepository.delete(filmToDelete);

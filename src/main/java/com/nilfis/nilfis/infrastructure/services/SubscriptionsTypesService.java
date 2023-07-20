@@ -5,11 +5,15 @@ import com.nilfis.nilfis.api.models.responses.SubscriptionsTypesResponse;
 import com.nilfis.nilfis.domain.entities.SubscriptionsTypesEntity;
 import com.nilfis.nilfis.domain.repositories.SubscriptionsTypesRepository;
 import com.nilfis.nilfis.infrastructure.abstract_service.ISubscriptionsTypesService;
+import com.nilfis.nilfis.util.enums.CacheConstants;
 import com.nilfis.nilfis.util.enums.Tables;
 import com.nilfis.nilfis.util.exceptions.IdNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,10 +24,12 @@ import java.util.UUID;
 @Service
 @Slf4j
 @AllArgsConstructor
+@CacheConfig(cacheNames = CacheConstants.SUBSCRIPTIONS_TYPES_CACHE_NAME)
 public class SubscriptionsTypesService implements ISubscriptionsTypesService {
 
     private final SubscriptionsTypesRepository subscriptionsTypesRepository;
     @Override
+    @CacheEvict(allEntries = true)
     public SubscriptionsTypesResponse create(SubscriptionsTypesRequest request) {
         var sbsTypeToPersist = SubscriptionsTypesEntity.builder()
                 .name(request.getName().toLowerCase())
@@ -41,12 +47,14 @@ public class SubscriptionsTypesService implements ISubscriptionsTypesService {
     }
 
     @Override
+    @CacheEvict(allEntries = true)
     public void delete(UUID uuid) {
         var customerToDelete = this.subscriptionsTypesRepository.findById(uuid).orElseThrow(() -> new IdNotFoundException(Tables.subscriptions_types.name()));
         this.subscriptionsTypesRepository.delete(customerToDelete);
     }
 
     @Override
+    @Cacheable()
     public HashSet<SubscriptionsTypesResponse> read() {
         var sbsTypesFromDB = this.subscriptionsTypesRepository.findAll();
         var sbsTypesForResponse = new HashSet<SubscriptionsTypesResponse>();

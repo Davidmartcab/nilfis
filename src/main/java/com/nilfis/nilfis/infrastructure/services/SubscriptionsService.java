@@ -11,11 +11,15 @@ import com.nilfis.nilfis.domain.repositories.SubscriptionsRepository;
 import com.nilfis.nilfis.domain.repositories.SubscriptionsTypesRepository;
 import com.nilfis.nilfis.infrastructure.abstract_service.ISubscriptionsService;
 import com.nilfis.nilfis.util.DurationInterval;
+import com.nilfis.nilfis.util.enums.CacheConstants;
 import com.nilfis.nilfis.util.enums.Tables;
 import com.nilfis.nilfis.util.exceptions.IdNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +31,7 @@ import java.util.UUID;
 @Service
 @Slf4j
 @AllArgsConstructor
+@CacheConfig(cacheNames = CacheConstants.SERIES_CACHE_NAME)
 public class SubscriptionsService implements ISubscriptionsService {
 
     private final SubscriptionsRepository subscriptionsRepository;
@@ -34,6 +39,7 @@ public class SubscriptionsService implements ISubscriptionsService {
     private final CustomersRepository customersRepository;
 
     @Override
+    @CacheEvict(allEntries = true)
     public SubscriptionsResponse create(SubscriptionsRequest request) {
         var customer = this.customersRepository.findById(request.getCustomer_id()).orElseThrow(() -> new IdNotFoundException(Tables.customers.name()));
 
@@ -65,6 +71,7 @@ public class SubscriptionsService implements ISubscriptionsService {
     }
 
     @Override
+    @Cacheable()
     public HashSet<SubscriptionsResponse> read() {
         var subscriptionsFromDB = this.subscriptionsRepository.findAll();
         var subscriptionsForResponse = new HashSet<SubscriptionsResponse>();
@@ -76,6 +83,7 @@ public class SubscriptionsService implements ISubscriptionsService {
     }
 
     @Override
+    @CacheEvict(allEntries = true)
     public void delete(UUID uuid) {
         var subscriptionToDelete = this.subscriptionsRepository.findById(uuid).orElseThrow(() -> new IdNotFoundException(Tables.subscriptions.name()));
         this.subscriptionsRepository.delete(subscriptionToDelete);
