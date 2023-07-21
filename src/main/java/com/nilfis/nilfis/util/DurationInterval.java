@@ -6,11 +6,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -30,37 +30,39 @@ public class DurationInterval {
     }
 
     public void setInterval(String interval) {
-        String intervalWithoutSpaces = interval.replace(" ", "");
-        int[] time;
-
-        if (intervalWithoutSpaces.contains("days")) {
-            String[] parts = intervalWithoutSpaces.split("days");
-            this.days = Integer.parseInt(parts[0]);
-            if (parts.length > 1) {
-                time = this.defragment(parts[1]);
-                this.hours = time[0];
-                this.minutes = time[1];
-            } else {
-                this.hours = 0;
-                this.minutes = 0;
-            }
-        } else {
-            time = this.defragment(intervalWithoutSpaces);
+        try {
+            Period period = parseInterval(interval);
+            this.days = period.getDays();
+            this.hours = 0;
+            this.minutes = 0;
+        } catch (DateTimeParseException e) {
+            System.out.println("Error: " + e.getMessage());
             this.days = 0;
-            this.hours = time[0];
-            this.minutes = time[1];
+            this.hours = 0;
+            this.minutes = 0;
         }
     }
 
-    private int[] defragment(String interval) {
-        int[] time = new int[3];
-        String[] timeParts = interval.split(":");
-        for (int i = 0; i < timeParts.length; i++) {
-            time[i] = Integer.parseInt(timeParts[i]);
+    private Period parseInterval(String interval) {
+        Pattern monthsPattern = Pattern.compile("(\\d+) months?");
+        Pattern daysPattern = Pattern.compile("(\\d+) days?");
+
+        Matcher monthsMatcher = monthsPattern.matcher(interval);
+        Matcher daysMatcher = daysPattern.matcher(interval);
+
+        int totalDays = 0;
+
+        if (monthsMatcher.find()) {
+            int months = Integer.parseInt(monthsMatcher.group(1));
+            totalDays += months * 30;
         }
 
-        return time;
-    }
+        if (daysMatcher.find()) {
+            int days = Integer.parseInt(daysMatcher.group(1));
+            totalDays += days;
+        }
 
+        return Period.ofDays(totalDays);
+    }
 
 }

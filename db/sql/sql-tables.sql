@@ -33,10 +33,7 @@ CREATE TABLE series (
 CREATE TABLE customers (
     id UUID default uuid_generate_v4() PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
-    email VARCHAR(50) NOT NULL UNIQUE,
-    phone VARCHAR(12) NOT NULL,
-    country VARCHAR(20),
-    verified BOOLEAN DEFAULT false
+    user_id VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE films_watched (
@@ -66,10 +63,9 @@ CREATE TABLE subscriptions_types (
 
 CREATE TABLE subscriptions (
     id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-    customer_id UUID NOT NULL,
+    user_id VARCHAR(50) NOT NULL,
     date_start DATE NOT NULL,
     date_end DATE NOT NULL,
     type_id UUID NOT NULL,
-    FOREIGN KEY (customer_id) REFERENCES customers (id) ON DELETE CASCADE,
     FOREIGN KEY (type_id) REFERENCES subscriptions_types (id) ON DELETE CASCADE
 );

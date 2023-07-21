@@ -21,47 +21,15 @@ INSERT INTO series (title, director, year, rate, chapters, subscription_type_req
     ('The Office', 'Greg Daniels, Ricky Gervais, Stephen Merchant', '2005', 8, 201, NULL),
     ('Sherlock', 'Mark Gatiss, Steven Moffat', '2010', 9, 13, NULL);
 
-INSERT INTO customers (name, email, phone, country, verified) VALUES
-    ('John Smith', 'johnsmith@example.com', '34987654321', 'Spain', true),
-    ('Maria Garcia', 'mariagarcia@example.com', '34987654322', 'Spain', true),
-    ('Andrea Rossi', 'andrearossi@example.com', '34987654323', 'Spain', true),
-    ('Liu Wei', 'liuwei@example.com', '34987654324', 'Spain', true),
-    ('Sophie Dupont', 'sophiedupont@example.com', '34987654325', 'Spain', true);
+INSERT INTO customers (name, user_id) VALUES
+    ('John Smith', 'johnsmith@example.com'),
+    ('Maria Garcia', 'mariagarcia@example.com'),
+    ('Andrea Rossi', 'andrearossi@example.com'),
+    ('Liu Wei', 'liuwei@example.com'),
+    ('Sophie Dupont', 'sophiedupont@example.com');
 
 INSERT INTO subscriptions_types (name, price, duration)
 VALUES
   ('basic', 9.99, '1 month'),
   ('premium', 19.99, '3 months'),
   ('familiar', 29.99, '6 months');
-
-INSERT INTO films_watched (customer_id, film_id, date)
-SELECT c.id AS customer_id,
-       f.id AS film_id,
-       CURRENT_DATE AS date
-FROM customers c
-JOIN films f ON c.email = 'johnsmith@example.com' AND f.title = 'The Shawshank Redemption'
-LIMIT 1;
-
-INSERT INTO films_watched (customer_id, film_id, date)
-SELECT c.id AS customer_id,
-       f.id AS film_id,
-       CURRENT_DATE AS date
-FROM customers c
-JOIN films f ON c.email = 'mariagarcia@example.com' AND f.title = 'Pulp Fiction'
-LIMIT 1;
-
-INSERT INTO series_watched (customer_id, serie_id, date)
-SELECT c.id AS customer_id,
-       s.id AS serie_id,
-       CURRENT_DATE AS date
-FROM customers c
-JOIN series s ON c.email = 'johnsmith@example.com' AND s.title = 'Breaking Bad'
-LIMIT 1;
-
-INSERT INTO series_watched (customer_id, serie_id, date)
-SELECT c.id AS customer_id,
-       s.id AS serie_id,
-       CURRENT_DATE AS date
-FROM customers c
-JOIN series s ON c.email = 'mariagarcia@example.com' AND s.title = 'Game of Thrones'
-LIMIT 1;

@@ -3,9 +3,7 @@ package com.nilfis.nilfis.api.controllers.error_handler;
 import com.nilfis.nilfis.api.models.responses.BaseErrorResponse;
 import com.nilfis.nilfis.api.models.responses.ErrorResponse;
 import com.nilfis.nilfis.api.models.responses.ErrorsResponse;
-import com.nilfis.nilfis.util.exceptions.EmailJustExist;
-import com.nilfis.nilfis.util.exceptions.IdNotFoundException;
-import com.nilfis.nilfis.util.exceptions.NotVerifiedCustomer;
+import com.nilfis.nilfis.util.exceptions.*;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -51,6 +49,24 @@ public class BadRequestController {
 
     @ExceptionHandler(EmailJustExist.class)
     public  BaseErrorResponse handleEmailJustExist(EmailJustExist exception) {
+        return ErrorResponse.builder()
+                .status(HttpStatus.BAD_REQUEST.name())
+                .error_code(HttpStatus.BAD_REQUEST.value())
+                .message(exception.getMessage())
+                .build();
+    }
+
+    @ExceptionHandler(EmailNotExist.class)
+    public  BaseErrorResponse handleEmailNotExist(EmailNotExist exception) {
+        return ErrorResponse.builder()
+                .status(HttpStatus.BAD_REQUEST.name())
+                .error_code(HttpStatus.BAD_REQUEST.value())
+                .message(exception.getMessage())
+                .build();
+    }
+
+    @ExceptionHandler(BadRole.class)
+    public  BaseErrorResponse handleBadRole(BadRole exception) {
         return ErrorResponse.builder()
                 .status(HttpStatus.BAD_REQUEST.name())
                 .error_code(HttpStatus.BAD_REQUEST.value())
