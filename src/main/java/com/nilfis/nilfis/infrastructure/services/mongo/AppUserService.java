@@ -17,6 +17,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
@@ -25,6 +26,7 @@ import java.util.Map;
 @Service
 @Slf4j
 @AllArgsConstructor
+@Transactional
 public class AppUserService implements ModifyUserService {
 
     private final AppUserRepository appUserRepository;
@@ -105,6 +107,11 @@ public class AppUserService implements ModifyUserService {
     public AppUserResponse findById(String id) {
         var user = this.appUserRepository.findById(id).orElseThrow(EmailNotExist::new);
         return this.entityToResponse(user);
+    }
+
+    @Transactional(readOnly = true)
+    private void loadByEmail(String email) {
+        var user = this.appUserRepository.findByEmail(email.toLowerCase()).orElseThrow(EmailNotExist::new);
     }
 
     private AppUserResponse entityToResponse(AppUserDocument entity) {
